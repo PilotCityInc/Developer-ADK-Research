@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/prefer-default-export
 export const HEADER = [
-  { text: 'Finished', align: 'center', value: 'finish', sortable: false, width: '5%' },
-  { text: 'Resource Name', align: 'center', value: 'resource', width: '20%' },
-  { text: 'Link', value: 'link', align: 'center', sortable: false, width: '20%' },
-  { text: 'Clicked & Read', align: 'center', value: 'click', sortable: false, width: '25%' }
+  { text: 'Status', align: 'start', value: 'click', sortable: false, width: '5%' },
+  { text: 'Research Item', align: 'start', value: 'resource', width: '80%' },
+  { text: 'Review', value: 'cta', align: 'start', sortable: false, width: '10%' },
+  { text: 'Confirm', align: 'start', value: 'finish', sortable: false, width: '5%' }
 ];
 
 export const items = [

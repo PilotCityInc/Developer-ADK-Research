@@ -1,11 +1,20 @@
 <template>
   <div class="module-default">
-    <v-data-table :headers="header" :items="items" sort-by="resource">
+    <v-data-table
+      :headers="header"
+      :items="items"
+      sort-by="resource"
+      items-per-page="100"
+      hide-default-footer="true"
+    >
       <template v-slot:item.finish>
         <input type="checkbox" />
       </template>
       <template v-slot:item.click>
         <v-icon> mdi-checkbox-marked-circle </v-icon>
+      </template>
+      <template v-slot:item.cta>
+        <v-btn x-small outlined depressed>Goto Link</v-btn>
       </template>
     </v-data-table>
   </div>
