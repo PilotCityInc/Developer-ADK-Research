@@ -46,7 +46,7 @@
     <div class="module__container" :style="{ 'border-color': getColor }">
       <div class="module__title">
         <div class="module__image rounded-circle">
-          <v-icon light x-large :color="selectedColor">mdi-cog</v-icon>
+          <v-icon light x-large :color="selectedColor">mdi-notebook-edit-outline</v-icon>
         </div>
         <div class="module__header text-md-h5 text-sm-subtitle-1 d-flex align-center">
           <input :value="moduleName" type="text" class="module__header-text" />
@@ -126,7 +126,7 @@ export default defineComponent({
     'module-preview': Module.Default
   },
   setup() {
-    const moduleName = ref('Module Name');
+    const moduleName = ref('Research');
     const page: Page = reactive({
       subpages: ['Setup', 'Presets', 'Monitor'],
       currentPage: 'Setup',
@@ -141,7 +141,7 @@ export default defineComponent({
         ['#eda1bf', '#fec34b', '#bdbdbd'],
         ['#ae90b0', '#f79961', '#000000']
       ],
-      selectedColor: '#bdbdbd',
+      selectedColor: '#6eba80',
       getColor: computed(() => {
         return color.selectedColor.substring(0, 7);
       })
