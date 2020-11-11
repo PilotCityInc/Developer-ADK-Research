@@ -60,14 +60,15 @@
         </div>
       </div>
       <div class="module__body">
-        <v-progress-linear color="#3c9dcd" height="2" value="75" buffer-value="95" stream />
+        <v-progress-linear color="#dedede" height="2" value="100" buffer-value="100" stream />
         <div class="module__pagination">
           <div v-for="page in subpages" :key="page" :class="{ active: currentPage == page }">
             <div class="module__pagination-button--active" />
             <v-btn
               :ripple="false"
-              class="module__pagination-button elevation-0"
-              color="transparent"
+              class="module__pagination-button"
+              elevation="0"
+              color="#ffffff"
               height="40"
               small
               @click="currentPage = page"
@@ -102,7 +103,7 @@ body {
 }
 </style>
 <script lang="ts">
-import { computed, defineComponent, reactive, ref, toRefs } from '@vue/composition-api';
+import { computed, reactive, ref, toRefs } from '@vue/composition-api';
 import '@/styles/module.scss';
 import * as Module from './components';
 
@@ -117,8 +118,18 @@ interface Color {
   selectedColor: string;
   getColor: string;
 }
-export default defineComponent({
-  name: 'Microapp',
+interface Config {
+  description: string;
+  instruct: string[];
+  deletable: boolean;
+  group: string[];
+  deliverable: boolean;
+  notifications: string;
+  reflection: string[];
+  access: string;
+}
+export default {
+  name: 'ModuleName',
   components: {
     'module-monitor': Module.Monitor,
     'module-setup': Module.Setup,
@@ -146,13 +157,18 @@ export default defineComponent({
         return color.selectedColor.substring(0, 7);
       })
     });
+    const config = ref({
+      description: '',
+      instruct: ['']
+    });
     const menu = ref(false);
     return {
       ...toRefs(color as any),
       ...toRefs(page as any),
+      config,
       moduleName,
       menu
     };
   }
-});
+};
 </script>
