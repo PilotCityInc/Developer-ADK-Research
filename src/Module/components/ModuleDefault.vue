@@ -1,33 +1,78 @@
 <template>
   <div class="module-default">
-    <v-data-table
-      :headers="header"
-      :items="items"
-      sort-by="resource"
-      items-per-page="100"
-      hide-default-footer="true"
-    >
-      <template v-slot:item.finish>
-        <input type="checkbox" />
-      </template>
-      <template v-slot:item.click>
-        <v-icon> mdi-checkbox-marked-circle </v-icon>
-      </template>
-      <template v-slot:item.cta>
-        <v-btn x-small outlined depressed>Goto Link</v-btn>
-      </template>
-    </v-data-table>
+    <div class="module-default__instructions">
+      <v-expansion-panels v-model="showInstructions" class="module-default__instructions" flat>
+        <v-expansion-panel>
+          <v-expansion-panel-header
+            v-show="showInstructions"
+            hide-actions
+            class="pa-0"
+            @click="showInstructions = true"
+          >
+            <template v-slot="{ open }">
+              <v-scroll-y-transition hide-on-leave>
+                <div v-if="!open" class="d-flex flex-column justify-center">
+                  <v-icon color="grey lighten-2" class="d-flex justify-center">
+                    mdi-chevron-down
+                  </v-icon>
+                  <div color="grey lighten-2" class="module-default__collapse-title">
+                    INSTRUCTIONS
+                  </div>
+                </div>
+              </v-scroll-y-transition>
+            </template>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <Instruct readonly />
+            <div @click="showInstructions = true">
+              <div class="module-default__collapse-title">CLOSE</div>
+              <!-- <div class="hr"/> OPTIONAL -->
+              <v-icon color="grey lighten-2" class="d-flex justify-center"> mdi-chevron-up </v-icon>
+            </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
+
+    <div>
+      <v-data-table
+        :headers="header"
+        :items="items"
+        sort-by="resource"
+        items-per-page="100"
+        hide-default-footer="true"
+      >
+        <template v-slot:item.finish>
+          <input type="checkbox" />
+        </template>
+        <template v-slot:item.click>
+          <v-icon> mdi-checkbox-marked-circle </v-icon>
+        </template>
+        <template v-slot:item.cta>
+          <v-btn x-small outlined depressed>Goto Link</v-btn>
+        </template>
+      </v-data-table>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { ref } from '@vue/composition-api';
 import { items, HEADER } from './const';
+import Instruct from './ModuleInstruct.vue';
 
 export default {
   name: 'ModuleDefault',
+  components: {
+    Instruct
+  },
   setup() {
-    return { header: ref(HEADER), items };
+    const setupInstructions = ref({
+      description: '',
+      instructions: ['', '', '']
+    });
+    const showInstructions = ref(true);
+    return { header: ref(HEADER), items, setupInstructions, showInstructions };
   }
 };
 </script>
