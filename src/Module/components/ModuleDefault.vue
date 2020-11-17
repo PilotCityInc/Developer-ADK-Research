@@ -1,7 +1,11 @@
 <template>
   <div class="module-default">
     <div class="module-default__instructions">
-      <v-expansion-panels v-model="showInstructions" class="module-default__instructions" flat>
+      <v-expansion-panels
+        v-model="showInstructions"
+        class="module-default__instructions"
+        flat
+      >
         <v-expansion-panel>
           <v-expansion-panel-header
             v-show="showInstructions"
@@ -15,7 +19,10 @@
                   <v-icon color="grey lighten-2" class="d-flex justify-center">
                     mdi-chevron-down
                   </v-icon>
-                  <div color="grey lighten-2" class="module-default__collapse-title">
+                  <div
+                    color="grey lighten-2"
+                    class="module-default__collapse-title"
+                  >
                     INSTRUCTIONS
                   </div>
                 </div>
@@ -27,7 +34,9 @@
             <div @click="showInstructions = true">
               <div class="module-default__collapse-title">CLOSE</div>
               <!-- <div class="hr"/> OPTIONAL -->
-              <v-icon color="grey lighten-2" class="d-flex justify-center"> mdi-chevron-up </v-icon>
+              <v-icon color="grey lighten-2" class="d-flex justify-center">
+                mdi-chevron-up
+              </v-icon>
             </div>
           </v-expansion-panel-content>
         </v-expansion-panel>
