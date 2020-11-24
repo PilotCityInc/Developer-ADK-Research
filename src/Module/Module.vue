@@ -35,25 +35,17 @@
 
       <v-menu v-if="currentPage != 'preview'" offset-y left>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            v-bind="attrs"
-            small
-            icon
-            class="module__navbar-button"
-            v-on="on"
-          >
+          <v-btn v-bind="attrs" small icon class="module__navbar-button" v-on="on">
             <v-icon color="grey lighten-1">mdi-cog</v-icon></v-btn
           >
         </template>
         <v-card class="module__menu">
           <v-btn color="white" class="module__settings-menu" tile depressed>
-            <v-icon left color="#404142">mdi-arrow-horizontal-lock </v-icon
-            >Lock</v-btn
+            <v-icon left color="#404142">mdi-arrow-horizontal-lock </v-icon>Lock</v-btn
           >
           <v-divider></v-divider>
           <v-btn color="white" class="module__settings-menu" tile depressed>
-            <v-icon left color="#ea6764">mdi-trash-can-outline </v-icon
-            >Delete</v-btn
+            <v-icon left color="#ea6764">mdi-trash-can-outline </v-icon>Delete</v-btn
           >
           <v-divider></v-divider>
           <v-color-picker
@@ -73,13 +65,9 @@
     <div class="module__container" :style="{ 'border-color': getColor }">
       <div class="module__title">
         <div class="module__image rounded-circle">
-          <v-icon light x-large :color="selectedColor"
-            >mdi-notebook-edit-outline</v-icon
-          >
+          <v-icon light x-large :color="selectedColor">mdi-notebook-edit-outline</v-icon>
         </div>
-        <div
-          class="module__header text-md-h5 text-sm-subtitle-1 d-flex align-center"
-        >
+        <div class="module__header text-md-h5 text-sm-subtitle-1 d-flex align-center">
           <input :value="moduleName" type="text" class="module__header-text" />
           <v-chip-group class="module__header-chips"
             ><v-chip disabled dark small>Preset Tags</v-chip>
@@ -96,11 +84,7 @@
           stream
         />
         <div v-if="currentPage != 'preview'" class="module__pagination">
-          <div
-            v-for="page in subpages"
-            :key="page"
-            :class="{ active: currentPage == page }"
-          >
+          <div v-for="page in subpages" :key="page" :class="{ active: currentPage == page }">
             <div class="module__pagination-button--active" />
             <v-btn
               :ripple="false"
@@ -128,13 +112,7 @@
       <v-container v-if="currentPage == 'preview'" style="max-width: 675px">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              v-bind="attrs"
-              small
-              :color="selectedColor"
-              dark
-              depressed
-              v-on="on"
+            <v-btn v-bind="attrs" small :color="selectedColor" dark depressed v-on="on"
               ><v-icon left>mdi-message-reply-text</v-icon>Chat with all</v-btn
             >
           </template>
@@ -146,8 +124,7 @@
               tile
               depressed
             >
-              <v-icon left color="#404142">mdi-account-group</v-icon
-              >Stakeholders Only</v-btn
+              <v-icon left color="#404142">mdi-account-group</v-icon>Stakeholders Only</v-btn
             >
             <v-divider></v-divider>
             <v-btn
@@ -157,8 +134,7 @@
               tile
               depressed
             >
-              <v-icon left color="#404142">mdi-account-cog</v-icon>Organizers
-              Only</v-btn
+              <v-icon left color="#404142">mdi-account-cog</v-icon>Organizers Only</v-btn
             >
             <v-divider></v-divider>
             <v-btn
@@ -168,8 +144,7 @@
               tile
               depressed
             >
-              <v-icon left color="#404142">mdi-account-multiple</v-icon>Team
-              Only</v-btn
+              <v-icon left color="#404142">mdi-account-multiple</v-icon>Team Only</v-btn
             >
 
             <v-divider></v-divider>
@@ -207,12 +182,7 @@
           activity</v-btn
         > -->
         <v-timeline dense clipped>
-          <v-timeline-item
-            fill-dot
-            class="white--text mb-12"
-            color="pink"
-            large
-          >
+          <v-timeline-item fill-dot class="white--text mb-12" color="pink" large>
             <template v-slot:icon>
               <v-avatar
                 ><img
@@ -228,9 +198,7 @@
               @keydown.enter="comment"
             >
               <template v-slot:append>
-                <v-btn class="mx-0" outlined depressed @click="comment">
-                  Post
-                </v-btn>
+                <v-btn class="mx-0" outlined depressed @click="comment"> Post </v-btn>
               </template>
             </v-text-field>
           </v-timeline-item>
@@ -261,20 +229,14 @@
                   >
                   <!-- ANYONE CAN FLAG COMMENTS -->
                   <v-btn small class="module__trash" icon
-                    ><v-icon small color="grey" class="module__trash"
-                      >mdi-flag</v-icon
-                    ></v-btn
+                    ><v-icon small color="grey" class="module__trash">mdi-flag</v-icon></v-btn
                   ></v-col
                 >
               </v-row>
 
-              <v-btn class="" icon
-                ><v-icon color="grey lighten-2">mdi-thumb-up</v-icon></v-btn
-              >
+              <v-btn class="" icon><v-icon color="grey lighten-2">mdi-thumb-up</v-icon></v-btn>
 
-              <v-btn class="" icon
-                ><v-icon color="grey lighten-2">mdi-thumb-down</v-icon></v-btn
-              >
+              <v-btn class="" icon><v-icon color="grey lighten-2">mdi-thumb-down</v-icon></v-btn>
               <!-- 
               <v-btn x-small outlined depressed class="mx-0">Reply</v-btn>
 
@@ -408,15 +370,12 @@ export default {
       this.events.push({
         id: this.nonce,
         text: this.input,
-        time: time.replace(
-          /:\d{2}\sGMT-\d{4}\s\((.*)\)/,
-          (match, contents, offset) => {
-            return ` ${contents
-              .split(' ')
-              .map(v => v.charAt(0))
-              .join('')}`;
-          }
-        )
+        time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/, (match, contents, offset) => {
+          return ` ${contents
+            .split(' ')
+            .map(v => v.charAt(0))
+            .join('')}`;
+        })
       });
       this.input = null;
     }

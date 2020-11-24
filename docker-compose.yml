@@ -4,10 +4,11 @@ networks:
     driver: bridge
 services:
   research: #in container-based development
+    image: pilotcity/boiler
     container_name: research
-    build: 
-      context: .
-      dockerfile: client.dockerfile 
+    # build: 
+    #   context: .
+    #   dockerfile: client.dockerfile 
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
