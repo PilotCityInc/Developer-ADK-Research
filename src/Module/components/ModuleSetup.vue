@@ -1,31 +1,47 @@
 <template>
-  <v-container class="module-edit">
-    <div class="module-edit__body">
-      <div class="module-edit__container">
-        <div class="module-edit__video">Video Name</div>
-        <div class="module-edit__link">Link</div>
-        <div class="module-edit__required">Required</div>
-      </div>
+  <ValidationObserver v-slot="{}" slim>
+    <v-container class="module-edit">
+      <div class="module-edit__body">
+        <div class="module-edit__container">
+          <div class="module-edit__video">Video Name</div>
+          <div class="module-edit__link">Link</div>
+          <div class="module-edit__required">Required</div>
+        </div>
 
-      <div class="module-edit__inputs">
-        <div class="module-edit__inputs-video">
-          <v-text-field label="Video Name" outlined></v-text-field>
+        <div class="module-edit__inputs">
+          <div class="module-edit__inputs-video">
+            <validation-provider v-slot="{ errors }" slim rules="required">
+              <v-text-field
+                v-model="video"
+                :error-messages="errors"
+                label="Video Name"
+                outlined
+              ></v-text-field>
+            </validation-provider>
+          </div>
+          <div class="module-edit__inputs-link">
+            <validation-provider v-slot="{ errors }" slim rules="required">
+              <v-text-field
+                v-model="link"
+                label="Link"
+                :error-messages="errors"
+                outlined
+              ></v-text-field>
+            </validation-provider>
+          </div>
+          <div class="module-edit__inputs-required">
+            <v-checkbox></v-checkbox>
+          </div>
         </div>
-        <div class="module-edit__inputs-link">
-          <v-text-field label="Link" outlined></v-text-field>
-        </div>
-        <div class="module-edit__inputs-required">
-          <v-checkbox></v-checkbox>
-        </div>
-      </div>
 
-      <div class="module-edit__add">
-        <v-btn class="module-edit__add-button" depressed :ripple="false">
-          <v-icon class="module-edit__add-icon"> mdi-plus </v-icon>
-        </v-btn>
+        <div class="module-edit__add">
+          <v-btn class="module-edit__add-button" depressed :ripple="false">
+            <v-icon class="module-edit__add-icon"> mdi-plus </v-icon>
+          </v-btn>
+        </div>
       </div>
-    </div>
-  </v-container>
+    </v-container>
+  </ValidationObserver>
 </template>
 
 <script lang="ts">
@@ -36,7 +52,11 @@ export default {
   name: 'ModuleSetup',
 
   setup() {
-    const setup = reactive({});
+    const setup = reactive({
+      video: '',
+      link: ''
+    });
+
     return {
       ...toRefs(setup)
     };
