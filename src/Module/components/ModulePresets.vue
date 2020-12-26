@@ -14,6 +14,7 @@
         <validation-provider v-slot="{ errors }" slim rules="required">
           <v-select
             v-model="groupActivity"
+            disabled
             :error-messages="errors"
             :items="group"
             label="What activity group does this belong to?"
@@ -24,6 +25,7 @@
         <validation-provider v-slot="{ errors }" slim rules="required">
           <v-select
             v-model="requiredActivity"
+            disabled
             :error-messages="errors"
             :items="required"
             label="Is this activity required for participants to complete?"
@@ -39,6 +41,7 @@
         <validation-provider v-slot="{ errors }" slim rules="required">
           <v-select
             v-model="deliverableActivity"
+            disabled
             :error-messages="errors"
             :items="deliverable"
             label="Is this a deliverable?"
@@ -53,6 +56,7 @@
         <validation-provider v-slot="{ errors }" slim rules="required">
           <v-select
             v-model="endEarlyActivity"
+            disabled
             :error-messages="errors"
             :items="endEarly"
             label="Allow participants to end program early after completion of this activity?"
@@ -92,15 +96,7 @@
 <script lang="ts">
 import { reactive, ref, toRefs } from '@vue/composition-api';
 import Instruct from './ModuleInstruct.vue';
-import {
-  group,
-  required,
-  lockOrder,
-  deliverable,
-  notifications,
-  accessibility,
-  endEarly
-} from './const';
+import { group, required, deliverable, endEarly } from './const';
 // import gql from 'graphql-tag';
 
 export default {
@@ -113,21 +109,14 @@ export default {
     const presets = reactive({
       group,
       required,
-      lockOrder,
       deliverable,
-      notifications,
-      accessibility,
       endEarly
     });
     const defaultActivity = reactive({
-      minutes: '',
-      groupActivity: '',
-      requiredActivity: '',
-      lockOrderActivity: '',
-      deliverableActivity: '',
-      notificationsActivity: '',
-      accessibilityActivity: '',
-      endEarlyActivity: ''
+      groupActivity: 'Project',
+      requiredActivity: 'Yes',
+      deliverableActivity: 'No',
+      endEarlyActivity: 'No'
     });
     const setupInstructions = ref({
       description: '',
