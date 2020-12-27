@@ -8,11 +8,11 @@
           <div class="module-edit__required">Required</div>
         </div>
 
-        <div class="module-edit__inputs">
+        <div v-for="(i, index) in link" :key="i" class="module-edit__inputs">
           <div class="module-edit__inputs-video">
             <validation-provider v-slot="{ errors }" slim rules="required">
               <v-text-field
-                v-model="video"
+                v-model="video[index]"
                 :error-messages="errors"
                 label="Video Name"
                 outlined
@@ -22,7 +22,7 @@
           <div class="module-edit__inputs-link">
             <validation-provider v-slot="{ errors }" slim rules="required">
               <v-text-field
-                v-model="link"
+                v-model="link[index]"
                 label="Link"
                 :error-messages="errors"
                 outlined
@@ -30,12 +30,12 @@
             </validation-provider>
           </div>
           <div class="module-edit__inputs-required">
-            <v-checkbox></v-checkbox>
+            <v-checkbox v-model="required[index]"></v-checkbox>
           </div>
         </div>
 
         <div class="module-edit__add">
-          <v-btn class="module-edit__add-button" depressed :ripple="false">
+          <v-btn class="module-edit__add-button" depressed :ripple="false" @click="populate()">
             <v-icon class="module-edit__add-icon"> mdi-plus </v-icon>
           </v-btn>
         </div>
@@ -45,20 +45,27 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs } from '@vue/composition-api';
+import {} from '@vue/composition-api';
 // import gql from 'graphql-tag';
 
 export default {
   name: 'ModuleSetup',
 
   setup() {
-    const setup = reactive({
-      video: '',
-      link: ''
-    });
+    const video = [''];
+    const link = [''];
+    const required = [''];
 
+    function populate() {
+      video.push('');
+      link.push('');
+      required.push('');
+    }
     return {
-      ...toRefs(setup)
+      video,
+      link,
+      populate,
+      required
     };
   }
 };
