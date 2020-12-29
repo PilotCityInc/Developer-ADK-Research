@@ -1,28 +1,25 @@
 <template>
-  <ValidationObserver v-slot="{}" slim>
+  <ValidationObserver v-slot="{ invalid }" slim>
     <v-container class="module-edit">
       <div class="module-edit__body">
         <div class="module-edit__container">
-          <div class="module-edit__video">Video Name</div>
+          <div class="module-edit__video">Name</div>
           <div class="module-edit__link">Link</div>
           <div class="module-edit__required">Required</div>
         </div>
 
-        <div v-for="(i, index) in link" :key="i" class="module-edit__inputs">
+        <div v-for="(i, index) in research" :key="index" class="module-edit__inputs">
           <div class="module-edit__inputs-video">
             <validation-provider v-slot="{ errors }" slim rules="required">
-              <v-text-field
-                v-model="video[index]"
-                :error-messages="errors"
-                label="Video Name"
-                outlined
-              ></v-text-field>
+              <v-text-field v-model="i.name" :error-messages="errors" label="Name" outlined>
+              </v-text-field>
+              <!-- <div>{{ i.name }}</div> -->
             </validation-provider>
           </div>
           <div class="module-edit__inputs-link">
             <validation-provider v-slot="{ errors }" slim rules="required">
               <v-text-field
-                v-model="link[index]"
+                v-model="i.link"
                 label="Link"
                 :error-messages="errors"
                 outlined
@@ -30,12 +27,18 @@
             </validation-provider>
           </div>
           <div class="module-edit__inputs-required">
-            <v-checkbox v-model="required[index]"></v-checkbox>
+            <v-checkbox v-model="i.required"></v-checkbox>
           </div>
         </div>
 
         <div class="module-edit__add">
-          <v-btn class="module-edit__add-button" depressed :ripple="false" @click="populate()">
+          <v-btn
+            class="module-edit__add-button"
+            depressed
+            :disabled="invalid"
+            :ripple="false"
+            @click="populate()"
+          >
             <v-icon class="module-edit__add-icon"> mdi-plus </v-icon>
           </v-btn>
         </div>
@@ -45,27 +48,33 @@
 </template>
 
 <script lang="ts">
-import {} from '@vue/composition-api';
+import { ref } from '@vue/composition-api';
 // import gql from 'graphql-tag';
 
 export default {
   name: 'ModuleSetup',
 
   setup() {
-    const video = [''];
-    const link = [''];
-    const required = [''];
+    const research = ref([
+      {
+        name: '',
+        link: '',
+        required: false
+      }
+    ]);
 
     function populate() {
-      video.push('');
-      link.push('');
-      required.push('');
+      const research1 = ref({
+        name: '',
+        link: '',
+        required: false
+      });
+      research.value.push(research1.value);
     }
+
     return {
-      video,
-      link,
       populate,
-      required
+      research
     };
   }
 };
