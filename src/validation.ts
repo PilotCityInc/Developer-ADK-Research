@@ -1,5 +1,5 @@
 import { ValidationProvider, extend, ValidationObserver } from 'vee-validate';
-import { required, email, min } from 'vee-validate/dist/rules';
+import { required, email, min, regex } from 'vee-validate/dist/rules';
 
 extend('required', {
   ...required,
@@ -21,5 +21,10 @@ extend('min', {
   message(value, args) {
     return `Must have at least ${args.length} characters`;
   }
+});
+extend('regex', {
+  ...regex,
+
+  message: 'Must be a Valid URL'
 });
 export { ValidationObserver, ValidationProvider };

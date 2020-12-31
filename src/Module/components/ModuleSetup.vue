@@ -17,7 +17,14 @@
             </validation-provider>
           </div>
           <div class="module-edit__inputs-link">
-            <validation-provider v-slot="{ errors }" slim rules="required">
+            <validation-provider
+              v-slot="{ errors }"
+              slim
+              :rules="{
+                regex: /(?:http|https):\/\/(www.)?(?:\w+|\d+)(?:.com)/,
+                required: true
+              }"
+            >
               <v-text-field
                 v-model="i.link"
                 label="Link"
