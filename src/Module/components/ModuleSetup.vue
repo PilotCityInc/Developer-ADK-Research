@@ -55,36 +55,57 @@
 </template>
 
 <script lang="ts">
-import { ref } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 // import gql from 'graphql-tag';
 
-export default {
+export default defineComponent({
   name: 'ModuleSetup',
-
-  setup() {
-    const research = ref([
-      {
-        name: '',
-        link: '',
-        required: false
-      }
-    ]);
-
-    function populate() {
-      const research1 = ref({
-        name: '',
-        link: '',
-        required: false
-      });
-      research.value.push(research1.value);
-    }
-
+  data() {
     return {
-      populate,
-      research
+      research: [
+        {
+          name: '',
+          link: '',
+          required: false
+        }
+      ]
     };
+  },
+  methods: {
+    populate() {
+      const research1 = {
+        name: '',
+        link: '',
+        required: false
+      };
+      this.research.push(research1);
+    }
   }
-};
+
+  // setup() {
+  //   const research = ref([
+  //     {
+  //       name: '',
+  //       link: '',
+  //       required: false
+  //     }
+  //   ]);
+
+  //   function populate() {
+  //     const research1 = ref({
+  //       name: '',
+  //       link: '',
+  //       required: false
+  //     });
+  //     research.value.push(research1.value);
+  //   }
+
+  //   return {
+  //     populate,
+  //     research
+  //   };
+  // }
+});
 </script>
 
 <style lang="scss">

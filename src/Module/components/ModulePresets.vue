@@ -94,41 +94,56 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, toRefs } from '@vue/composition-api';
+import { defineComponent } from '@vue/composition-api';
 import Instruct from './ModuleInstruct.vue';
 import { group, required, deliverable, endEarly } from './const';
 // import gql from 'graphql-tag';
 
-export default {
+export default defineComponent({
   name: 'ModulePresets',
   components: {
     Instruct
   },
-  apollo: {},
-  setup() {
-    const presets = reactive({
+  data() {
+    return {
       group,
       required,
       deliverable,
-      endEarly
-    });
-    const defaultActivity = reactive({
+      endEarly,
       groupActivity: 'Project',
       requiredActivity: 'Yes',
       deliverableActivity: 'No',
-      endEarlyActivity: 'No'
-    });
-    const setupInstructions = ref({
-      description: '',
-      instructions: ['', '', '']
-    });
-    return {
-      ...toRefs(presets),
-      setupInstructions,
-      ...toRefs(defaultActivity)
+      endEarlyActivity: 'No',
+      setupInstructions: {
+        description: '',
+        instructions: ['', '', '']
+      }
     };
   }
-};
+  // setup() {
+  //   const presets = reactive({
+  //     group,
+  //     required,
+  //     deliverable,
+  //     endEarly
+  //   });
+  //   const defaultActivity = reactive({
+  //     groupActivity: 'Project',
+  //     requiredActivity: 'Yes',
+  //     deliverableActivity: 'No',
+  //     endEarlyActivity: 'No'
+  //   });
+  //   const setupInstructions = ref({
+  //     description: '',
+  //     instructions: ['', '', '']
+  //   });
+  //   return {
+  //     ...toRefs(presets),
+  //     setupInstructions,
+  //     ...toRefs(defaultActivity)
+  //   };
+  // }
+});
 </script>
 
 <style lang="scss">
