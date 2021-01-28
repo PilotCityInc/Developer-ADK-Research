@@ -265,9 +265,9 @@ body {
 }
 </style>
 <script lang="ts">
-import { computed, reactive, ref, toRefs, defineComponent } from '@vue/composition-api';
+import { computed, reactive, ref, toRefs, defineComponent, PropType } from '@vue/composition-api';
 import '../styles/module.scss';
-// import { Collection } from 'mongodb';
+import { Collection } from 'mongodb';
 import * as Module from './components';
 
 export default defineComponent({
@@ -279,21 +279,40 @@ export default defineComponent({
     'module-presets': Module.Presets,
     'module-preview': Module.Default
   },
-  //   props: {
-  // programCollection: {
-  //   required: true,
-  //   type: Object as PropType<Collection>
-  // },
-  // programId: {
-  //   require: true,
-  //   type: String
-  // }
-  //   },
-  setup() {
-    //
-    // props.programCollection.findOne({
-    //   _id: props.programId
-    // });
+  props: {
+    programCollection: {
+      required: true,
+      type: Object as PropType<Collection>
+    },
+    programId: {
+      require: true,
+      type: String
+    },
+    researchName: {
+      require: true,
+      type: String
+    },
+    researchRequired: {
+      require: false,
+      type: Boolean
+    },
+    researchCompleted: {
+      require: false,
+      type: Boolean
+    }
+  },
+  setup(props) {
+    const programDoc = props.programCollection.findOne({_id: props.programId}, {projection: {adks:1}});
+
+    let researchName = ref("")
+    let researchRequired = ref("")
+    let researchCompleted = ref("")
+
+    let researchData = programDoc.adks.find((adk) => adk.name === "research")
+    researchName.value = researchData.researchName
+    researchRequired.value = researchData.researchRequired
+    researchCompleted.value = researchData.researchCompleted
+
     // ENTER ACTIVITY NAME BELOW
     const moduleName = ref('Research');
     const page = reactive({
