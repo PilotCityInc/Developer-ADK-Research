@@ -273,38 +273,42 @@ export default defineComponent({
     'module-preview': Module.Default
   },
   props: {
-    programCollection: {
-      required: true,
-      type: Object as PropType<Collection>
-    },
-    programId: {
-      require: true,
-      type: String
-    },
-    researchName: {
-      require: true,
-      type: String
-    },
-    researchRequired: {
-      require: false,
-      type: Boolean
-    },
-    researchCompleted: {
-      require: false,
-      type: Boolean
-    }
+    // programCollection: {
+    //   required: true,
+    //   type: Object as PropType<Collection>
+    // },
+    // programId: {
+    //   require: true,
+    //   type: String
+    // },
+    // researchName: {
+    //   require: true,
+    //   type: String
+    // },
+    // researchRequired: {
+    //   require: false,
+    //   type: Boolean
+    // },
+    // researchCompleted: {
+    //   require: false,
+    //   type: Boolean
+    // }
   },
-  setup(props) {
-    const programDoc = props.programCollection.findOne({_id: props.programId}, {projection: {adks:1}});
+  setup() // props
+  {
+    // const programDoc = props.programCollection.findOne(
+    //   { _id: props.programId },
+    //   { projection: { adks: 1 } }
+    // );
 
-    let researchName = ref("")
-    let researchRequired = ref("")
-    let researchCompleted = ref("")
+    // const researchName = ref('');
+    // const researchRequired = ref('');
+    // const researchCompleted = ref('');
 
-    let researchData = programDoc.adks.find((adk) => adk.name === "research")
-    researchName.value = researchData.researchName
-    researchRequired.value = researchData.researchRequired
-    researchCompleted.value = researchData.researchCompleted
+    // const researchData = programDoc.adks.find(adk => adk.name === 'research');
+    // researchName.value = researchData.researchName;
+    // researchRequired.value = researchData.researchRequired;
+    // researchCompleted.value = researchData.researchCompleted;
 
     // ENTER ACTIVITY NAME BELOW
     const moduleName = ref('Research');

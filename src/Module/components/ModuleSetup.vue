@@ -3,15 +3,20 @@
     <v-container class="module-edit">
       <div class="module-edit__body">
         <div class="module-edit__container">
-          <div class="module-edit__video">Name</div>
+          <!-- <div class="module-edit__video">Name</div>
           <div class="module-edit__link">Link</div>
-          <div class="module-edit__required">Required</div>
+          <div class="module-edit__required">Required</div> -->
         </div>
 
         <div v-for="(i, index) in research" :key="index" class="module-edit__inputs">
           <div class="module-edit__inputs-video">
             <validation-provider v-slot="{ errors }" slim rules="required">
-              <v-text-field v-model="i.name" :error-messages="errors" label="Name" outlined>
+              <v-text-field
+                v-model="i.name"
+                :error-messages="errors"
+                label="Resource Name"
+                outlined
+              >
               </v-text-field>
               <!-- <div>{{ i.name }}</div> -->
             </validation-provider>
@@ -21,27 +26,29 @@
               v-slot="{ errors }"
               slim
               :rules="{
-                regex: /(?:http|https):\/\/(www.)?(?:\w+|\d+)(?:.com)/,
                 required: true
               }"
             >
               <v-text-field
                 v-model="i.link"
-                label="Link"
+                label="Enter Link"
                 :error-messages="errors"
                 outlined
               ></v-text-field>
             </validation-provider>
           </div>
           <div class="module-edit__inputs-required">
-            <v-checkbox v-model="i.required"></v-checkbox>
+            <!-- <v-checkbox v-model="i.required"></v-checkbox> -->
+            <v-btn x-large outlined>Delete</v-btn>
           </div>
         </div>
 
         <div class="module-edit__add">
           <v-btn
+            x-large
             class="module-edit__add-button"
             depressed
+            outlined
             :disabled="invalid"
             :ripple="false"
             @click="populate()"
@@ -114,39 +121,53 @@ export default defineComponent({
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding-left: 5%;
+    // padding-left: 5%;
+    justify-content: center;
+    align-items: center;
   }
   &__container {
     display: flex;
     flex-direction: row;
+    width: 100%;
   }
 
   &__video {
     width: 100%;
   }
   &__link {
-    margin-right: 15%;
+    // margin-right: 15%;
+    width: 100%;
   }
   &__required {
-    padding-left: 20%;
+    // padding-left: 20%;
+    width: 100%;
   }
   &__inputs {
+    width: 100%;
     margin-top: 1%;
     display: flex;
     flex-direction: row;
     &-video {
       display: flex;
-      margin-right: 9%;
+      width: 100%;
+      // margin-right: 9%;
     }
     &-link {
       display: flex;
-      margin-right: 10%;
+      width: 100%;
+      margin-left: 3%;
+    }
+    &-required {
+      display: flex;
+      // width: 100%;
+      margin-left: 3%;
+      justify-content: center;
     }
   }
   &__add {
     display: flex;
     width: 100%;
-    padding-right: 15%;
+    // padding-right: 15%;
     &-button {
       width: 100%;
     }
