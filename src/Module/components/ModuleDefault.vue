@@ -58,7 +58,7 @@
           <!-- WHEN ONE HAS BEEN REVIEWED OR CONFIRMED -->
           <!-- <v-icon color="yellow"> mdi-alert-circle </v-icon> -->
           <!-- WHEN REVIEWED AND CONFIRMED -->
-          <v-icon color="green"> mdi-checkbox-marked-circle </v-icon>
+          <!-- <v-icon color="green"> mdi-checkbox-marked-circle </v-icon> -->
         </template>
         <template v-slot:item.cta>
           <v-btn x-small outlined depressed>
