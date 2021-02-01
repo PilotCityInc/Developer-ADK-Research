@@ -62,12 +62,24 @@
 </template>
 
 <script lang="ts">
-import { ref } from '@vue/composition-api';
+import { ref, computed, defineComponent, PropType } from '@vue/composition-api';
+import MongoDoc from '../types';
 
-export default {
+export default defineComponent({
   name: 'ModuleInstruct',
-
-  setup() {
+  props: {
+    value: {
+      required: true,
+      type: Object as PropType<MongoDoc>
+    }
+  },
+  setup(props, ctx) {
+    const programDoc = computed({
+      get: () => props.value,
+      set: newVal => {
+        ctx.emit('input', newVal);
+      }
+    });
     const researchInstructions = ref(['']);
     const goal = ref(['']);
     function populate() {
@@ -76,7 +88,7 @@ export default {
 
     return { researchInstructions, populate, goal };
   }
-};
+});
 </script>
 
 <style lang="scss">

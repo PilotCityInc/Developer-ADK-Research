@@ -8,7 +8,11 @@
           <div class="module-edit__required">Required</div> -->
         </div>
 
-        <div v-for="(i, index) in research" :key="index" class="module-edit__inputs">
+        <div
+          v-for="(i, index) in programDoc.data.adks[index].research"
+          :key="index"
+          class="module-edit__inputs"
+        >
           <div class="module-edit__inputs-video">
             <validation-provider v-slot="{ errors }" slim rules="required">
               <v-text-field
@@ -55,6 +59,8 @@
           >
             <v-icon class="module-edit__add-icon"> mdi-plus </v-icon>
           </v-btn>
+          <v-btn :loading="loading" @click="save">Save</v-btn>
+          <p>{{ errormsg }}</p>
         </div>
       </div>
     </v-container>
@@ -62,13 +68,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, ref, computed, PropType } from '@vue/composition-api';
+import MongoDoc from '../types';
 // import gql from 'graphql-tag';
 
 export default defineComponent({
   name: 'ModuleSetup',
-  data() {
-    return {
+  props: {
+    value: {
+      required: true,
+      type: Object as PropType<MongoDoc>
+    }
+  },
+  setup(props, ctx) {
+    const programDoc = computed({
+      get: () => props.value,
+      set: newVal => {
+        ctx.emit('input', newVal);
+      }
+    });
+
+    const index = programDoc.value.data.adks.findIndex(function findResearchObj(obj) {
+      return obj.name === 'research';
+    });
+    const initResearchSetup = {
       research: [
         {
           name: '',
@@ -77,41 +100,38 @@ export default defineComponent({
         }
       ]
     };
-  },
-  methods: {
-    populate() {
-      const research1 = {
-        name: '',
-        link: '',
-        required: false
-      };
-      this.research.push(research1);
+
+    programDoc.value.data.adks[index] = {
+      ...initResearchSetup,
+      ...programDoc.value.data.adks[index]
+    };
+    // Handle Save
+    const loading = ref(false);
+    const errormsg = ref('');
+    async function save() {
+      loading.value = true;
+      try {
+        await programDoc.value.save();
+        errormsg.value = '';
+      } catch (err) {
+        errormsg.value = 'Could not save';
+      }
+      loading.value = false;
     }
+
+    function populate() {
+      programDoc.value.data.adks[index].research.push(initResearchSetup.research[0]);
+    }
+
+    return {
+      populate,
+      loading,
+      save,
+      errormsg,
+      index,
+      programDoc
+    };
   }
-
-  // setup() {
-  //   const research = ref([
-  //     {
-  //       name: '',
-  //       link: '',
-  //       required: false
-  //     }
-  //   ]);
-
-  //   function populate() {
-  //     const research1 = ref({
-  //       name: '',
-  //       link: '',
-  //       required: false
-  //     });
-  //     research.value.push(research1.value);
-  //   }
-
-  //   return {
-  //     populate,
-  //     research
-  //   };
-  // }
 });
 </script>
 

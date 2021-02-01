@@ -13,7 +13,7 @@
 
         <validation-provider v-slot="{ errors }" slim rules="required">
           <v-select
-            v-model="groupActivity"
+            v-model="programDoc.data.adks[index].defaultActivity.groupActivity"
             disabled
             :error-messages="errors"
             :items="group"
@@ -24,7 +24,7 @@
 
         <validation-provider v-slot="{ errors }" slim rules="required">
           <v-select
-            v-model="requiredActivity"
+            v-model="programDoc.data.adks[index].defaultActivity.requiredActivity"
             disabled
             :error-messages="errors"
             :items="required"
@@ -40,7 +40,7 @@
       ></v-select> -->
         <validation-provider v-slot="{ errors }" slim rules="required">
           <v-select
-            v-model="deliverableActivity"
+            v-model="programDoc.data.adks[index].defaultActivity.deliverableActivity"
             disabled
             :error-messages="errors"
             :items="deliverable"
@@ -55,7 +55,7 @@
       ></v-select> -->
         <validation-provider v-slot="{ errors }" slim rules="required">
           <v-select
-            v-model="endEarlyActivity"
+            v-model="programDoc.data.adks[index].defaultActivity.endEarlyActivity"
             disabled
             :error-messages="errors"
             :items="endEarly"
@@ -94,9 +94,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { reactive, defineComponent, ref, toRefs, computed, PropType } from '@vue/composition-api';
 import Instruct from './ModuleInstruct.vue';
 import { group, required, deliverable, endEarly } from './const';
+import MongoDoc from '../types';
 // import gql from 'graphql-tag';
 
 export default defineComponent({
@@ -104,45 +105,75 @@ export default defineComponent({
   components: {
     Instruct
   },
-  data() {
-    return {
+  props: {
+    value: {
+      required: true,
+      type: Object as PropType<MongoDoc>
+    }
+  },
+
+  setup(props, ctx) {
+    const programDoc = computed({
+      get: () => props.value,
+      set: newVal => {
+        ctx.emit('input', newVal);
+      }
+    });
+
+    const index = programDoc.value.data.adks.findIndex(function findResearchObj(obj) {
+      return obj.name === 'research';
+    });
+
+    const initResearchPresets = {
+      defaultActivity: {
+        groupActivity: 'Project',
+        requiredActivity: 'Yes',
+        deliverableActivity: 'No',
+        endEarlyActivity: 'No',
+        required: false
+      }
+    };
+
+    programDoc.value.data.adks[index] = {
+      ...initResearchPresets,
+      ...programDoc.value.data.adks[index]
+    };
+
+    // Handle Save
+    const loading = ref(false);
+    const errormsg = ref('');
+    async function save() {
+      loading.value = true;
+      try {
+        await programDoc.value.save();
+        errormsg.value = '';
+      } catch (err) {
+        errormsg.value = 'Could not save';
+      }
+      loading.value = false;
+    }
+
+    const presets = reactive({
       group,
       required,
       deliverable,
-      endEarly,
-      groupActivity: 'Project',
-      requiredActivity: 'Yes',
-      deliverableActivity: 'No',
-      endEarlyActivity: 'No',
-      setupInstructions: {
-        description: '',
-        instructions: ['', '', '']
-      }
+      endEarly
+    });
+
+    const setupInstructions = ref({
+      description: '',
+      instructions: ['', '', '']
+    });
+    return {
+      ...toRefs(presets),
+      setupInstructions,
+      loading,
+      save,
+      errormsg,
+      index,
+      programDoc
     };
   }
-  // setup() {
-  //   const presets = reactive({
-  //     group,
-  //     required,
-  //     deliverable,
-  //     endEarly
-  //   });
-  //   const defaultActivity = reactive({
-  //     groupActivity: 'Project',
-  //     requiredActivity: 'Yes',
-  //     deliverableActivity: 'No',
-  //     endEarlyActivity: 'No'
-  //   });
-  //   const setupInstructions = ref({
-  //     description: '',
-  //     instructions: ['', '', '']
-  //   });
-  //   return {
-  //     ...toRefs(presets),
-  //     setupInstructions,
-  //     ...toRefs(defaultActivity)
-  //   };
-  // }
 });
 </script>
 

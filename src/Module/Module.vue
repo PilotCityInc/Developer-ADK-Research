@@ -9,7 +9,7 @@
         small
         depressed
         color="grey lighten-1"
-        rounded
+        roundedrt
         >00:00:00</v-btn
       >
       <v-btn
@@ -100,7 +100,7 @@
         </div>
         <div class="module__page">
           <keep-alive>
-            <component :is="getComponent" />
+            <component :is="getComponent" v-model="programDoc" />
           </keep-alive>
         </div>
       </div>
@@ -225,6 +225,7 @@
     <!-- TIMELINE END -->
   </v-container>
 </template>
+
 <style lang="scss">
 html,
 body {
@@ -263,6 +264,7 @@ import { computed, reactive, ref, toRefs, defineComponent, PropType } from '@vue
 import '../styles/module.scss';
 import { Collection } from 'mongodb';
 import * as Module from './components';
+import MongoDoc from './types';
 
 export default defineComponent({
   name: 'ModuleName',
@@ -273,42 +275,34 @@ export default defineComponent({
     'module-preview': Module.Default
   },
   props: {
-    // programCollection: {
-    //   required: true,
-    //   type: Object as PropType<Collection>
-    // },
-    // programId: {
-    //   require: true,
-    //   type: String
-    // },
-    // researchName: {
-    //   require: true,
-    //   type: String
-    // },
-    // researchRequired: {
-    //   require: false,
-    //   type: Boolean
-    // },
-    // researchCompleted: {
-    //   require: false,
-    //   type: Boolean
-    // }
+    value: {
+      required: true,
+      type: Object as PropType<MongoDoc>
+    }
   },
-  setup() // props
-  {
-    // const programDoc = props.programCollection.findOne(
-    //   { _id: props.programId },
-    //   { projection: { adks: 1 } }
-    // );
+  setup(
+    props,
+    ctx // props
+  ) {
+    // ProgramData Logic
+    const programDoc = computed({
+      get: () => props.value,
+      set: newVal => {
+        ctx.emit('input', newVal);
+      }
+    });
 
-    // const researchName = ref('');
-    // const researchRequired = ref('');
-    // const researchCompleted = ref('');
+    // console.log(programDoc.value);
 
-    // const researchData = programDoc.adks.find(adk => adk.name === 'research');
-    // researchName.value = researchData.researchName;
-    // researchRequired.value = researchData.researchRequired;
-    // researchCompleted.value = researchData.researchCompleted;
+    const index = programDoc.value.data.adks.findIndex(function findResearchObj(obj) {
+      return obj.name === 'research';
+    });
+    if (index === -1) {
+      const initResearch = {
+        name: 'research'
+      };
+      programDoc.value.data.adks.push(initResearch);
+    }
 
     // ENTER ACTIVITY NAME BELOW
     const moduleName = ref('Research');
@@ -373,7 +367,8 @@ export default defineComponent({
       getColor,
       ...toRefs(timelineData),
       timeline,
-      comment
+      comment,
+      programDoc
     };
   }
 });
