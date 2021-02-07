@@ -42,6 +42,9 @@
             </validation-provider>
           </div>
           <div class="module-edit__inputs-required">
+            <v-checkbox label="Required?"></v-checkbox>
+          </div>
+          <div class="module-edit__inputs-required">
             <!-- <v-checkbox v-model="i.required"></v-checkbox> -->
             <v-btn x-large outlined>Delete</v-btn>
           </div>
@@ -59,8 +62,8 @@
           >
             <v-icon class="module-edit__add-icon"> mdi-plus </v-icon>
           </v-btn>
-          <v-btn :loading="loading" @click="save">Save</v-btn>
-          <p>{{ errormsg }}</p>
+          <!-- <v-btn :loading="loading" @click="save">Save</v-btn>
+          <p>{{ errormsg }}</p> -->
         </div>
       </div>
     </v-container>
