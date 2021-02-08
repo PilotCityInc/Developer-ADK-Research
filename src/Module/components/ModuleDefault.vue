@@ -54,23 +54,20 @@
         </template>
         <template v-slot:item.click>
           <!-- WHEN NONE HAVE BEEN REVIEWED OR CONFIRMED -->
-          <!-- <v-icon color="red"> mdi-close-circle </v-icon> -->
+          <v-icon color="grey"> mdi-close-circle </v-icon>
           <!-- WHEN ONE HAS BEEN REVIEWED OR CONFIRMED -->
-          <!-- <v-icon color="yellow"> mdi-alert-circle </v-icon> -->
+          <v-icon color="yellow"> mdi-alert-circle </v-icon>
           <!-- WHEN REVIEWED AND CONFIRMED -->
-          <!-- <v-icon color="green"> mdi-checkbox-marked-circle </v-icon> -->
+          <v-icon color="green"> mdi-checkbox-marked-circle </v-icon>
         </template>
         <template v-slot:item.cta>
           <v-btn x-small outlined depressed>
-            <!-- <v-progress-circular
-              class="mr-2"
-              size="12"
-              color="yellow"
-              indeterminate
-            ></v-progress-circular
-            > -->
             <v-icon left x-small color="green">mdi-check-bold </v-icon>Goto Link</v-btn
           >
+          <v-btn x-small outlined depressed> Goto Link</v-btn>
+        </template>
+        <template v-slot:item.required>
+          <v-btn x-small color="red" outlined depressed>Required</v-btn>
         </template>
       </v-data-table>
     </div>
