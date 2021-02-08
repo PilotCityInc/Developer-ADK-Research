@@ -7,7 +7,7 @@
 <script lang="ts">
 import Vue from 'vue';
 // import ApolloExample from './components/ApolloExample.vue';
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, Ref, ref } from '@vue/composition-api';
 import Module from './Module/Module.vue';
 import MongoDoc from './Module/types';
 
@@ -18,7 +18,7 @@ export default defineComponent({
     Module
   },
   setup() {
-    const programDocStub: MongoDoc = ref({
+    const programDocStub: Ref<MongoDoc> = ref({
       data: {
         adks: []
       },

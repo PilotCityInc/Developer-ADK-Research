@@ -44,30 +44,41 @@
     <div class="">
       <v-data-table
         :headers="header"
-        :items="items"
+        :items="researchProgress"
         sort-by="resource"
-        items-per-page="100"
-        hide-default-footer="true"
+        :items-per-page="100"
+        :hide-default-footer="true"
       >
-        <template v-slot:item.finish>
-          <input type="checkbox" />
-        </template>
-        <template v-slot:item.click>
-          <!-- WHEN NONE HAVE BEEN REVIEWED OR CONFIRMED -->
-          <v-icon color="grey"> mdi-close-circle </v-icon>
-          <!-- WHEN ONE HAS BEEN REVIEWED OR CONFIRMED -->
-          <v-icon color="yellow"> mdi-alert-circle </v-icon>
+        <template v-slot:item.click="{ item }">
           <!-- WHEN REVIEWED AND CONFIRMED -->
-          <v-icon color="green"> mdi-checkbox-marked-circle </v-icon>
+          <v-icon v-if="item.completed" color="green"> mdi-checkbox-marked-circle </v-icon>
+          <!-- WHEN ONE HAS BEEN REVIEWED OR CONFIRMED -->
+          <v-icon v-else-if="item.viewed" color="yellow"> mdi-alert-circle </v-icon>
+          <!-- WHEN NONE HAVE BEEN REVIEWED OR CONFIRMED -->
+          <v-icon v-else color="grey"> mdi-close-circle </v-icon>
         </template>
-        <template v-slot:item.cta>
-          <v-btn x-small outlined depressed>
+        <template v-slot:item.cta="{ item }">
+          <v-btn v-if="item.viewed" x-small outlined depressed>
             <v-icon left x-small color="green">mdi-check-bold </v-icon>Goto Link</v-btn
           >
-          <v-btn x-small outlined depressed> Goto Link</v-btn>
+          <v-btn
+            v-else
+            x-small
+            outlined
+            depressed
+            :href="item.link"
+            target="_blank"
+            @click="item.viewed = true"
+          >
+            Goto Link</v-btn
+          >
         </template>
-        <template v-slot:item.required>
-          <v-btn x-small color="red" outlined depressed>Required</v-btn>
+        <template v-slot:item.required="{ item }">
+          <v-btn v-if="item.required" x-small color="red" outlined depressed>Required</v-btn>
+          <v-btn v-else x-small disabled>Recommended</v-btn>
+        </template>
+        <template v-slot:item.finish="{ item }">
+          <v-checkbox v-model="item.completed" :disabled="!item.viewed" type="checkbox" />
         </template>
       </v-data-table>
     </div>
@@ -75,24 +86,56 @@
 </template>
 
 <script lang="ts">
-import { ref } from '@vue/composition-api';
+import { defineComponent, ref, computed, PropType } from '@vue/composition-api';
+import MongoDoc from '../types';
 import { items, HEADER } from './const';
 import Instruct from './ModuleInstruct.vue';
 
-export default {
+export default defineComponent({
   name: 'ModuleDefault',
   components: {
     Instruct
   },
-  setup() {
+  props: {
+    value: {
+      required: true,
+      type: Object as PropType<MongoDoc>
+    }
+  },
+  setup(props, ctx) {
+    // props
+    const programDoc = computed({
+      get: () => props.value,
+      set: newVal => {
+        ctx.emit('input', newVal);
+      }
+    });
+    const researchData = computed(() =>
+      programDoc.value.data.adks.find(obj => obj.name === 'research')
+    );
+    const researchProgress = ref(
+      (researchData.value!.researchLinks as any[]).map((obj: any) => ({
+        ...obj,
+        viewed: false,
+        completed: false
+      }))
+    );
+    // layout
     const setupInstructions = ref({
       description: '',
       instructions: ['', '', '']
     });
     const showInstructions = ref(true);
-    return { header: ref(HEADER), items, setupInstructions, showInstructions };
+    return {
+      header: HEADER,
+      items,
+      setupInstructions,
+      showInstructions,
+      researchProgress,
+      researchData
+    };
   }
-};
+});
 </script>
 
 <style lang="scss">
