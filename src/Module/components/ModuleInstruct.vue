@@ -1,5 +1,5 @@
 <template>
-  <ValidationObserver v-slot="{ invalid }" slim>
+  <ValidationObserver v-slot="{}" slim>
     <!--  TODO: make the inputs into actual components -->
     <v-container class="module-instruct">
       <div class="module-instruct__container">
@@ -13,7 +13,11 @@
             row-height="3"
             rows="3"
             outlined
-            class="font-weight-black text-body-1"
+            class="font-weight-bold text-body-1"
+            hide-details
+            dense
+            auto-grow
+            disabled
           ></v-textarea>
         </div>
         <div class="module-instruct__instructions">
@@ -21,41 +25,60 @@
             <span>Instructions</span>
           </div>
           <div
-            v-for="(i, index) in researchInstructions"
+            v-for="(i, index) in boilerInstructions"
             :key="index"
             class="module-instruct__instructions-item"
           >
             <v-avatar
               size="35"
-              class="module-instruct__instructions-av font-weight-black text-caption d-none d-sm-flex"
+              color="white"
+              class="module-instruct__instructions-av font-weight-bold text-caption d-none d-sm-flex"
             >
               {{ index + 1 }}
             </v-avatar>
 
             <validation-provider v-slot="{ errors }" slim rules="required">
               <v-textarea
-                v-model="researchInstructions[index]"
+                v-model="boilerInstructions[index]"
                 row-height="3"
                 rows="1"
                 outlined
+                hide-details
+                dense
                 :error-messages="errors"
-                class="font-weight-black text-body-1"
+                class="font-weight-bold text-body-1"
+                auto-grow
+                disabled
               ></v-textarea>
             </validation-provider>
           </div>
 
-          <div>
+          <!-- <div>
             <v-btn
               class="module-instruct__instructions-add font-weight-black text-body-1"
               depressed
+              color="white"
               :disabled="invalid"
               :ripple="false"
               @click="populate()"
             >
               <v-icon class="module-instruct__instructions-add-icon"> mdi-plus </v-icon>
             </v-btn>
-          </div>
+          </div> -->
         </div>
+
+        <!-- <div>
+            <v-btn
+              class="module-instruct__instructions-add font-weight-black text-body-1"
+              depressed
+              color="white"
+              :disabled="invalid"
+              :ripple="false"
+              @click="populate()"
+            >
+              <v-icon class="module-instruct__instructions-add-icon"> mdi-plus </v-icon>
+            </v-btn>
+          </div> -->
       </div>
     </v-container>
   </ValidationObserver>
@@ -63,30 +86,30 @@
 
 <script lang="ts">
 import { ref, computed, defineComponent, PropType } from '@vue/composition-api';
-import MongoDoc from '../types';
 
 export default defineComponent({
   name: 'ModuleInstruct',
-  props: {
-    value: {
-      required: true,
-      type: Object as PropType<MongoDoc>
-    }
-  },
-  setup(props, ctx) {
-    const programDoc = computed({
-      get: () => props.value,
-      set: newVal => {
-        ctx.emit('input', newVal);
-      }
-    });
-    const researchInstructions = ref(['']);
-    const goal = ref(['']);
-    function populate() {
-      researchInstructions.value.push('');
-    }
 
-    return { researchInstructions, populate, goal };
+  setup() {
+    // const programDoc = computed({
+    //   get: () => props.value,
+    //   set: newVal => {
+    //     ctx.emit('input', newVal);
+    //   }
+    // });
+    const boilerInstructions = ref([
+      'Click resource link',
+      'Review, complete or understand resource contents',
+      'Mark completed until all finished'
+    ]);
+    const goal = ref([
+      'To research employer-provided resources, links, examples, possibilities & direction for projects'
+    ]);
+    // function populate() {
+    //   boilerInstructions.value.push('');
+    // }
+
+    return { boilerInstructions, goal };
   }
 });
 </script>

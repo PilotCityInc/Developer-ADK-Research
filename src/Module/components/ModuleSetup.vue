@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ invalid }" slim>
     <v-container class="module-edit">
-      <div class="module-edit__body">
+      <div :ref="body" class="module-edit__body">
         <div class="module-edit__container">
           <!-- <div class="module-edit__video">Name</div>
           <div class="module-edit__link">Link</div>
@@ -9,14 +9,14 @@
         </div>
 
         <div
-          v-for="(i, index) in programDoc.data.adks[index].research"
-          :key="index"
+          v-for="(i, itemIndex) in programDoc.data.adks[index].researchLinks"
+          :key="itemIndex"
           class="module-edit__inputs"
         >
           <div class="module-edit__inputs-video">
             <validation-provider v-slot="{ errors }" slim rules="required">
               <v-text-field
-                v-model="i.name"
+                v-model="i.resource"
                 :error-messages="errors"
                 label="Resource Name"
                 outlined
@@ -42,8 +42,13 @@
             </validation-provider>
           </div>
           <div class="module-edit__inputs-required">
+            <v-checkbox v-model="i.required" label="Required?"></v-checkbox>
+          </div>
+          <div class="module-edit__inputs-required">
             <!-- <v-checkbox v-model="i.required"></v-checkbox> -->
-            <v-btn x-large outlined>Delete</v-btn>
+            <v-btn x-large outlined :disabled="itemIndex === 0" @click="removeItem(itemIndex)"
+              >Delete</v-btn
+            >
           </div>
         </div>
 
@@ -59,8 +64,8 @@
           >
             <v-icon class="module-edit__add-icon"> mdi-plus </v-icon>
           </v-btn>
-          <v-btn :loading="loading" @click="save">Save</v-btn>
-          <p>{{ errormsg }}</p>
+          <!-- <v-btn :loading="loading" @click="save">Save</v-btn>
+          <p>{{ errormsg }}</p> -->
         </div>
       </div>
     </v-container>
@@ -88,13 +93,16 @@ export default defineComponent({
       }
     });
 
-    const index = programDoc.value.data.adks.findIndex(function findResearchObj(obj) {
-      return obj.name === 'research';
-    });
+    let index = programDoc.value.data.adks.findIndex(obj => obj.name === 'research');
+    if (index === -1)
+      index =
+        programDoc.value.data.adks.push({
+          name: 'research'
+        }) - 1;
     const initResearchSetup = {
-      research: [
+      researchLinks: [
         {
-          name: '',
+          resource: '',
           link: '',
           required: false
         }
@@ -118,18 +126,28 @@ export default defineComponent({
       }
       loading.value = false;
     }
-
+    const body = ref(0);
     function populate() {
-      programDoc.value.data.adks[index].research.push(initResearchSetup.research[0]);
+      programDoc.value.data.adks[index].researchLinks.push({
+        resource: '',
+        link: '',
+        required: false
+      });
+      body.value += 1;
     }
-
+    function removeItem(itemIndex: number) {
+      programDoc.value.data.adks[index].researchLinks.splice(itemIndex, 1);
+      body.value += 1;
+    }
     return {
       populate,
       loading,
       save,
       errormsg,
       index,
-      programDoc
+      programDoc,
+      body,
+      removeItem
     };
   }
 });
