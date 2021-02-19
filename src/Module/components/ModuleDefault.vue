@@ -103,7 +103,6 @@ export default defineComponent({
     }
   },
   setup(props, ctx) {
-    // props
     const programDoc = computed({
       get: () => props.value,
       set: newVal => {

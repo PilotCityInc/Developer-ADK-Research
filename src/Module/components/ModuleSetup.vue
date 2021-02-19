@@ -67,6 +67,14 @@
           <!-- <v-btn :loading="loading" @click="save">Save</v-btn>
           <p>{{ errormsg }}</p> -->
         </div>
+        <div>
+          <v-btn class="mt-12" x-large outlined depressed :loading="loading" @click="process()"
+            >Save</v-btn
+          >
+        </div>
+        <v-alert v-if="success || error" :type="success ? 'success' : 'error'">{{
+          message
+        }}</v-alert>
       </div>
     </v-container>
   </ValidationObserver>
@@ -74,7 +82,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from '@vue/composition-api';
+import { createLoader, getModAdk } from 'pcv4lib/src';
 import MongoDoc from '../types';
+
 // import gql from 'graphql-tag';
 
 export default defineComponent({
@@ -114,18 +124,6 @@ export default defineComponent({
       ...programDoc.value.data.adks[index]
     };
     // Handle Save
-    const loading = ref(false);
-    const errormsg = ref('');
-    async function save() {
-      loading.value = true;
-      try {
-        await programDoc.value.save();
-        errormsg.value = '';
-      } catch (err) {
-        errormsg.value = 'Could not save';
-      }
-      loading.value = false;
-    }
     const body = ref(0);
     function populate() {
       programDoc.value.data.adks[index].researchLinks.push({
@@ -141,13 +139,11 @@ export default defineComponent({
     }
     return {
       populate,
-      loading,
-      save,
-      errormsg,
       index,
       programDoc,
       body,
-      removeItem
+      removeItem,
+      ...createLoader(programDoc.value.save, 'Saved Successfully', 'Could not save at this time')
     };
   }
 });
