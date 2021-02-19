@@ -76,7 +76,14 @@
           <p>{{ errormsg }}</p> -->
         </div>
         <div>
-          <v-btn class="mt-12" x-large outlined depressed :loading="loading" @click="process()"
+          <v-btn
+            class="mt-12"
+            x-large
+            outlined
+            depressed
+            :disabled="invalid"
+            :loading="loading"
+            @click="process()"
             >Save</v-btn
           >
         </div>
