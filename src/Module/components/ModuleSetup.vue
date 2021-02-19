@@ -20,6 +20,7 @@
                 :error-messages="errors"
                 label="Resource Name"
                 outlined
+                rounded
               >
               </v-text-field>
               <!-- <div>{{ i.name }}</div> -->
@@ -38,6 +39,7 @@
                 label="Enter Link"
                 :error-messages="errors"
                 outlined
+                rounded
               ></v-text-field>
             </validation-provider>
           </div>
@@ -46,7 +48,12 @@
           </div>
           <div class="module-edit__inputs-required">
             <!-- <v-checkbox v-model="i.required"></v-checkbox> -->
-            <v-btn x-large outlined :disabled="itemIndex === 0" @click="removeItem(itemIndex)"
+            <v-btn
+              rounded
+              x-large
+              outlined
+              :disabled="itemIndex === 0"
+              @click="removeItem(itemIndex)"
               >Delete</v-btn
             >
           </div>
@@ -55,6 +62,7 @@
         <div class="module-edit__add">
           <v-btn
             x-large
+            rounded
             class="module-edit__add-button"
             depressed
             outlined
