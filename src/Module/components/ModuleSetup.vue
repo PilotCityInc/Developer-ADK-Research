@@ -129,7 +129,7 @@ export default defineComponent({
         {
           resource: '',
           link: '',
-          required: false
+          required: true
         }
       ]
     };
