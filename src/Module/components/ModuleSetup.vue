@@ -97,7 +97,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from '@vue/composition-api';
-import { createLoader, getModAdk } from 'pcv4lib/src';
+import { loading } from 'pcv4lib/src';
 import MongoDoc from '../types';
 
 // import gql from 'graphql-tag';
@@ -158,7 +158,7 @@ export default defineComponent({
       programDoc,
       body,
       removeItem,
-      ...createLoader(programDoc.value.update, 'Saved', 'Something went wrong, try again later')
+      ...loading(programDoc.value.update, 'Saved', 'Something went wrong, try again later')
     };
   }
 });

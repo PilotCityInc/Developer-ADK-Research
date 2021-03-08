@@ -1,11 +1,10 @@
 <template>
   <v-app>
-    <Module v-model="programDocStub" />
+    <Module v-model="programDocStub" :user-type="userTypeStub" />
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
 // import ApolloExample from './components/ApolloExample.vue';
 import { defineComponent, Ref, ref } from '@vue/composition-api';
 import Module from './Module/Module.vue';
@@ -32,8 +31,11 @@ export default defineComponent({
       },
       changeStream: {}
     });
+    const userTypeStub = 'participant';
+
     return {
-      programDocStub
+      programDocStub,
+      userTypeStub
     };
   }
 });

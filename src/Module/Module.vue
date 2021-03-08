@@ -12,7 +12,7 @@
         roundedrt
         >00:00:00</v-btn
       > -->
-      <v-btn
+      <!-- <v-btn
         v-if="currentPage != 'preview'"
         class="module__navbar-button"
         outlined
@@ -30,7 +30,7 @@
         color="red"
         @click="currentPage = 'setup'"
         >Exit Preview</v-btn
-      >
+      > -->
 
       <!-- COMMENT OUT UNTIL VERSION WHERE CUSTOMIZABILITY IS ALLOWED -->
 
@@ -257,7 +257,7 @@ body {
 <script lang="ts">
 import { computed, reactive, ref, toRefs, defineComponent, PropType } from '@vue/composition-api';
 import '../styles/module.scss';
-import { Collection } from 'mongodb';
+// import { Collection } from 'mongodb';
 import * as Module from './components';
 import MongoDoc from './types';
 
@@ -273,6 +273,13 @@ export default defineComponent({
     value: {
       required: true,
       type: Object as PropType<MongoDoc>
+    },
+    userType: {
+      required: true,
+      type: String
+      // participant: '',
+      // organizer: '',
+      // stakeholder: ''
     }
   },
   setup(
@@ -305,6 +312,11 @@ export default defineComponent({
       subpages: ['Setup', 'Presets'],
       currentPage: 'Setup'
     });
+    if (props.userType === 'organizer') {
+      page.currentPage = 'setup';
+    } else {
+      page.currentPage = 'preview';
+    }
     const getComponent = computed(() => {
       return `module-${page.currentPage.toLowerCase()}`;
     });
