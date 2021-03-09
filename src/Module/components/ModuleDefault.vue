@@ -45,7 +45,6 @@
       <v-data-table
         :headers="header"
         :items="researchProgress"
-        sort-by="resource"
         :items-per-page="100"
         :hide-default-footer="true"
       >
