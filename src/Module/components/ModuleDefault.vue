@@ -174,7 +174,7 @@ export default defineComponent({
   }
 
   &__container {
-    // width: 100%;
+    width: 100%;
     // padding: none;
     // margin: none;
     margin-top: 0px;
