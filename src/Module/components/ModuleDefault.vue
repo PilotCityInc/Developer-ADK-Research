@@ -41,7 +41,7 @@
       buffer-value="100"
       stream
     />
-    <div class="">
+    <div class="module-default__container">
       <v-data-table
         :headers="header"
         :items="researchProgress"
