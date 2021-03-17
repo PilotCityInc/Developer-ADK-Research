@@ -33,20 +33,13 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
-    <v-progress-linear
-      class="module-default__collapse-divider"
-      color="#dedede"
-      height="2"
-      value="100"
-      buffer-value="100"
-      stream
-    />
-    <div class="module-default__container">
+    <v-progress-linear class="mt-3" color="#dedede" height="2" value="100" buffer-value="100" stream />
       <v-data-table
         :headers="header"
         :items="researchProgress"
         :items-per-page="100"
         :hide-default-footer="true"
+        width="100%"
       >
         <template v-slot:item.click="{ item }">
           <!-- WHEN REVIEWED AND CONFIRMED -->
@@ -80,7 +73,6 @@
           <v-checkbox v-model="item.completed" :disabled="!item.viewed" type="checkbox" />
         </template>
       </v-data-table>
-    </div>
   </v-container>
 </template>
 
@@ -139,7 +131,7 @@ export default defineComponent({
 
 <style lang="scss">
 .module-default {
-  padding: 0px;
+  // padding: 0px;
   &__none {
     border-radius: 5px;
     // border: 1px solid #dedede;
@@ -155,7 +147,7 @@ export default defineComponent({
   &__collapse-divider {
     margin-top: 15px;
     // margin-bottom: 75px;
-    margin-bottom: none !important;
+    // margin-bottom: none !important;
     margin-right: none;
     margin-left: none;
     padding-right: none;
