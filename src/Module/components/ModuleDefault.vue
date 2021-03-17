@@ -39,7 +39,7 @@
         :items="researchProgress"
         :items-per-page="100"
         :hide-default-footer="true"
-        width="100%"
+        class="module-default__data-table"
       >
         <template v-slot:item.click="{ item }">
           <!-- WHEN REVIEWED AND CONFIRMED -->
@@ -131,7 +131,10 @@ export default defineComponent({
 
 <style lang="scss">
 .module-default {
-  // padding: 0px;
+
+  &__data-table {
+    width: 100%;
+  }
   &__none {
     border-radius: 5px;
     // border: 1px solid #dedede;
