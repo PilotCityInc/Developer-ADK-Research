@@ -73,6 +73,12 @@
           <v-checkbox v-model="item.completed" :disabled="!item.viewed" type="checkbox" />
         </template>
       </v-data-table>
+    <div class="module-default__scope">
+      <v-btn x-large depressed outlined :loading="loading" @click="process()">Finish Activity</v-btn>
+      <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
+        message
+      }}</v-alert>
+    </div>
   </v-container>
 </template>
 
@@ -81,6 +87,7 @@ import { defineComponent, ref, computed, PropType } from '@vue/composition-api';
 import MongoDoc from '../types';
 import { items, HEADER } from './const';
 import Instruct from './ModuleInstruct.vue';
+import { loading } from 'pcv4lib/src'
 
 export default defineComponent({
   name: 'ModuleDefault',
@@ -101,6 +108,14 @@ export default defineComponent({
         ctx.emit('input', newVal);
       }
     });
+    let index = programDoc.value.data.adks.findIndex(function findResearchObj(obj) {
+      return obj.name === 'research';
+    });
+    if (index === -1)
+      index =
+        programDoc.value.data.adks.push({
+          name: 'research'
+        }) - 1;
     const researchData = computed(() =>
       programDoc.value.data.adks.find(obj => obj.name === 'research')
     );
@@ -117,13 +132,29 @@ export default defineComponent({
       instructions: ['', '', '']
     });
     const showInstructions = ref(true);
+    const checkCompleted = () => {
+      // every research item must be viewed and completed 
+      // unless it's not required
+      return researchProgress.value.every(item => 
+        !item.required || (item.viewed && item.completed)) ? 
+        {
+          isComplete: true,
+          adkIndex: index
+        } : null;
+    }
     return {
       header: HEADER,
       items,
       setupInstructions,
       showInstructions,
       researchProgress,
-      researchData
+      researchData,
+      ...loading(
+        () => programDoc.value.update(
+          () => checkCompleted()),
+        'Saved',
+        'Something went wrong, try again later'
+      )
     };
   }
 });
