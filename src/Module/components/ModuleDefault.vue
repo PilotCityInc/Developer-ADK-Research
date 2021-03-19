@@ -84,10 +84,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from '@vue/composition-api';
+import { loading } from 'pcv4lib/src';
 import MongoDoc from '../types';
 import { items, HEADER } from './const';
 import Instruct from './ModuleInstruct.vue';
-import { loading } from 'pcv4lib/src'
 
 export default defineComponent({
   name: 'ModuleDefault',
