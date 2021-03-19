@@ -73,7 +73,7 @@
           <v-checkbox v-model="item.completed" :disabled="!item.viewed" type="checkbox" />
         </template>
       </v-data-table>
-    <div class="module-default__scope">
+    <div class="module-default__scope mt-12">
       <v-btn x-large depressed outlined :loading="loading" @click="process()">Finish Activity</v-btn>
       <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
         message
