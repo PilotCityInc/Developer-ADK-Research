@@ -159,8 +159,8 @@ export default defineComponent({
       body,
       removeItem,
       ...loading(
-        () => programDoc.value.update(
-          () => ({
+        () =>
+          programDoc.value.update(() => ({
             isComplete: true,
             adkIndex: index
           })),

@@ -5,7 +5,7 @@
 .module-instruct{
   width: 80%;
   position: relative;
-  left: 3%;
+  left: 2%;
     &-grid{
  
      // margin-top: 50px;
@@ -19,15 +19,13 @@
      grid-row-gap: 25px;
      justify-content: center;
    }
-  }
- 
  
   &__stepper{
    box-shadow: none !important;
+  }
    &-step{
      justify-content: flex-start;
      align-items: flex-start;
-  
    }
   }
 

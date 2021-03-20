@@ -33,48 +33,57 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
-    <v-progress-linear class="mt-3" color="#dedede" height="2" value="100" buffer-value="100" stream />
-      <v-data-table
-        :headers="header"
-        :items="researchProgress"
-        :items-per-page="100"
-        :hide-default-footer="true"
-        class="module-default__data-table"
-      >
-        <template v-slot:item.click="{ item }">
-          <!-- WHEN REVIEWED AND CONFIRMED -->
-          <v-icon v-if="item.completed" color="green"> mdi-checkbox-marked-circle </v-icon>
-          <!-- WHEN ONE HAS BEEN REVIEWED OR CONFIRMED -->
-          <v-icon v-else-if="item.viewed" color="yellow"> mdi-alert-circle </v-icon>
-          <!-- WHEN NONE HAVE BEEN REVIEWED OR CONFIRMED -->
-          <v-icon v-else color="grey"> mdi-close-circle </v-icon>
-        </template>
-        <template v-slot:item.cta="{ item }">
-          <v-btn v-if="item.viewed" x-small outlined depressed>
-            <v-icon left x-small color="green">mdi-check-bold </v-icon>Goto Link</v-btn
-          >
-          <v-btn
-            v-else
-            x-small
-            outlined
-            depressed
-            :href="item.link"
-            target="_blank"
-            @click="item.viewed = true"
-          >
-            Goto Link</v-btn
-          >
-        </template>
-        <template v-slot:item.required="{ item }">
-          <v-btn v-if="item.required" x-small color="red" outlined depressed>Required</v-btn>
-          <v-btn v-else x-small disabled>Recommended</v-btn>
-        </template>
-        <template v-slot:item.finish="{ item }">
-          <v-checkbox v-model="item.completed" :disabled="!item.viewed" type="checkbox" />
-        </template>
-      </v-data-table>
+    <v-progress-linear
+      class="mt-3"
+      color="#dedede"
+      height="2"
+      value="100"
+      buffer-value="100"
+      stream
+    />
+    <v-data-table
+      :headers="header"
+      :items="researchProgress"
+      :items-per-page="100"
+      :hide-default-footer="true"
+      class="module-default__data-table"
+    >
+      <template v-slot:item.click="{ item }">
+        <!-- WHEN REVIEWED AND CONFIRMED -->
+        <v-icon v-if="item.completed" color="green"> mdi-checkbox-marked-circle </v-icon>
+        <!-- WHEN ONE HAS BEEN REVIEWED OR CONFIRMED -->
+        <v-icon v-else-if="item.viewed" color="yellow"> mdi-alert-circle </v-icon>
+        <!-- WHEN NONE HAVE BEEN REVIEWED OR CONFIRMED -->
+        <v-icon v-else color="grey"> mdi-close-circle </v-icon>
+      </template>
+      <template v-slot:item.cta="{ item }">
+        <v-btn v-if="item.viewed" x-small outlined depressed>
+          <v-icon left x-small color="green">mdi-check-bold </v-icon>Goto Link</v-btn
+        >
+        <v-btn
+          v-else
+          x-small
+          outlined
+          depressed
+          :href="item.link"
+          target="_blank"
+          @click="item.viewed = true"
+        >
+          Goto Link</v-btn
+        >
+      </template>
+      <template v-slot:item.required="{ item }">
+        <v-btn v-if="item.required" x-small color="red" outlined depressed>Required</v-btn>
+        <v-btn v-else x-small disabled>Recommended</v-btn>
+      </template>
+      <template v-slot:item.finish="{ item }">
+        <v-checkbox v-model="item.completed" :disabled="!item.viewed" type="checkbox" />
+      </template>
+    </v-data-table>
     <div class="module-default__scope mt-12">
-      <v-btn x-large depressed outlined :loading="loading" @click="process()">Finish Activity</v-btn>
+      <v-btn x-large depressed outlined :loading="loading" @click="process()"
+        >Finish Activity</v-btn
+      >
       <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
         message
       }}</v-alert>
@@ -133,15 +142,15 @@ export default defineComponent({
     });
     const showInstructions = ref(true);
     const checkCompleted = () => {
-      // every research item must be viewed and completed 
+      // every research item must be viewed and completed
       // unless it's not required
-      return researchProgress.value.every(item => 
-        !item.required || (item.viewed && item.completed)) ? 
-        {
-          isComplete: true,
-          adkIndex: index
-        } : null;
-    }
+      return researchProgress.value.every(item => !item.required || (item.viewed && item.completed))
+        ? {
+            isComplete: true,
+            adkIndex: index
+          }
+        : null;
+    };
     return {
       header: HEADER,
       items,
@@ -150,8 +159,7 @@ export default defineComponent({
       researchProgress,
       researchData,
       ...loading(
-        () => programDoc.value.update(
-          () => checkCompleted()),
+        () => programDoc.value.update(() => checkCompleted()),
         'Saved',
         'Something went wrong, try again later'
       )
@@ -162,7 +170,6 @@ export default defineComponent({
 
 <style lang="scss">
 .module-default {
-
   &__data-table {
     width: 100%;
   }
