@@ -31,7 +31,7 @@ export default defineComponent({
       },
       changeStream: {}
     });
-    const userTypeStub = 'organizer';
+    const userTypeStub = 'stakeholder';
 
     return {
       programDocStub,

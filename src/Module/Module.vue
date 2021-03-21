@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="module__page">
-          <component :user-type="userType" :is="getComponent" v-model="programDoc" />
+          <component :is="getComponent" v-model="programDoc" :user-type="userType" />
         </div>
       </div>
     </div>
@@ -275,7 +275,7 @@ export default defineComponent({
     },
     userType: {
       required: true,
-      type: String,
+      type: String
       // participant: '',
       // organizer: '',
       // stakeholder: ''
