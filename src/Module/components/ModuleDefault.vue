@@ -81,13 +81,13 @@
       <template v-slot:item.finish="{ item }">
         <v-checkbox
           v-model="item.completed"
-          :disabled="!item.viewed || userType === 'stakeholder'"
+          :readonly="!item.viewed || userType === 'stakeholder'"
           type="checkbox"
         />
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">
-      <v-btn x-large depressed outlined :loading="loading" @click="process()"
+      <v-btn :disabled="userType === 'stakeholder'" x-large depressed outlined :loading="loading" @click="process()"
         >Finish Activity</v-btn
       >
       <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
