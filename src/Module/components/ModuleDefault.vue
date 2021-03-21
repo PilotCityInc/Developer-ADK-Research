@@ -114,7 +114,7 @@ export default defineComponent({
       // participant: '',
       // organizer: '',
       // stakeholder: ''
-    },
+    }
   },
   setup(props, ctx) {
     // props
