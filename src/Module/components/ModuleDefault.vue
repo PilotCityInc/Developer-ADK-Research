@@ -58,7 +58,9 @@
       </template>
       <template v-slot:item.cta="{ item }">
         <v-btn v-if="item.viewed" x-small outlined depressed>
-          <v-icon left x-small color="green">mdi-check-bold </v-icon>Goto Link</v-btn
+          <v-icon v-if="userType !== 'stakeholder'" left x-small color="green"
+            >mdi-check-bold </v-icon
+          >Goto Link</v-btn
         >
         <v-btn
           v-else
@@ -77,7 +79,11 @@
         <v-btn v-else x-small disabled>Recommended</v-btn>
       </template>
       <template v-slot:item.finish="{ item }">
-        <v-checkbox v-model="item.completed" :disabled="!item.viewed || userType === 'stakeholder'" type="checkbox" />
+        <v-checkbox
+          v-model="item.completed"
+          :disabled="!item.viewed || userType === 'stakeholder'"
+          type="checkbox"
+        />
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">
@@ -107,6 +113,13 @@ export default defineComponent({
     value: {
       required: true,
       type: Object as PropType<MongoDoc>
+    },
+    userType: {
+      required: true,
+      type: String
+      // participant: '',
+      // organizer: '',
+      // stakeholder: ''
     }
   },
   setup(props, ctx) {
