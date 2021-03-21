@@ -77,7 +77,7 @@
         <v-btn v-else x-small disabled>Recommended</v-btn>
       </template>
       <template v-slot:item.finish="{ item }">
-        <v-checkbox v-model="item.completed" :disabled="!item.viewed" type="checkbox" />
+        <v-checkbox v-model="item.completed" :disabled="!item.viewed || userType === 'stakeholder'" type="checkbox" />
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">

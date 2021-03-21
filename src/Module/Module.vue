@@ -100,7 +100,7 @@
           </div>
         </div>
         <div class="module__page">
-          <component :is="getComponent" v-model="programDoc" />
+          <component :user-type="userType" :is="getComponent" v-model="programDoc" />
         </div>
       </div>
     </div>
