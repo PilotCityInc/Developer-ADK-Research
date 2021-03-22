@@ -87,7 +87,13 @@
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">
-      <v-btn :disabled="userType === 'stakeholder'" x-large depressed outlined :loading="loading" @click="process()"
+      <v-btn
+        :disabled="userType === 'stakeholder'"
+        x-large
+        depressed
+        outlined
+        :loading="loading"
+        @click="process()"
         >Finish Activity</v-btn
       >
       <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
