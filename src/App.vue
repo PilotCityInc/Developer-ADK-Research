@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Module v-model="programDocStub" :user-type="userTypeStub" />
+    <Module v-model="programDocStub" :user-type="userTypeStub" :student-doc="studentDocStub" />
   </v-app>
 </template>
 
@@ -19,6 +19,25 @@ export default defineComponent({
   setup() {
     const programDocStub: Ref<MongoDoc> = ref({
       data: {
+        adks: [
+          {
+            researchLinks: [{ resource: 'resrre', link: 'esresr', required: true }],
+            name: 'research'
+          }
+        ]
+      },
+      update: () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve(true);
+            // reject(new Error('REJECTED'));
+          }, 3000);
+        });
+      },
+      changeStream: {}
+    });
+    const studentDocStub: Ref<MongoDoc> = ref({
+      data: {
         adks: []
       },
       update: () => {
@@ -32,10 +51,11 @@ export default defineComponent({
       changeStream: {}
     });
     const userTypeStub = 'organizer';
-
+    if (userTypeStub === 'organizer') studentDocStub.value = null;
     return {
       programDocStub,
-      userTypeStub
+      userTypeStub,
+      studentDocStub
     };
   }
 });

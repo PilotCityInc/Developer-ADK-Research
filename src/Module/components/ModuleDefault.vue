@@ -105,7 +105,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from '@vue/composition-api';
-import { loading } from 'pcv4lib/src';
+import { loading, getModAdk } from 'pcv4lib/src';
 import MongoDoc from '../types';
 import { items, HEADER } from './const';
 import Instruct from './ModuleInstruct.vue';
@@ -126,34 +126,32 @@ export default defineComponent({
       // participant: '',
       // organizer: '',
       // stakeholder: ''
+    },
+    studentDoc: {
+      required: true,
+      type: Object as () => MongoDoc
     }
   },
   setup(props, ctx) {
     // props
-    const programDoc = computed({
-      get: () => props.value,
-      set: newVal => {
-        ctx.emit('input', newVal);
-      }
-    });
-    let index = programDoc.value.data.adks.findIndex(function findResearchObj(obj) {
-      return obj.name === 'research';
-    });
-    if (index === -1)
-      index =
-        programDoc.value.data.adks.push({
-          name: 'research'
-        }) - 1;
-    const researchData = computed(() =>
-      programDoc.value.data.adks.find(obj => obj.name === 'research')
+
+    const researchData = computed(() => props.value.data.adks.find(obj => obj.name === 'research'));
+
+    const { adkData: researchAdk, adkIndex } = getModAdk(
+      props,
+      ctx.emit,
+      'research',
+      {
+        researchProgress: (researchData.value!.researchLinks as any[]).map((obj: any) => ({
+          ...obj,
+          viewed: false,
+          completed: false
+        }))
+      },
+      'studentDoc',
+      'inputStudentDoc'
     );
-    const researchProgress = ref(
-      (researchData.value!.researchLinks as any[]).map((obj: any) => ({
-        ...obj,
-        viewed: false,
-        completed: false
-      }))
-    );
+    const { researchProgress } = researchAdk.value;
     // layout
     const setupInstructions = ref({
       description: '',
@@ -163,12 +161,14 @@ export default defineComponent({
     const checkCompleted = () => {
       // every research item must be viewed and completed
       // unless it's not required
-      return researchProgress.value.every(item => !item.required || (item.viewed && item.completed))
-        ? {
-            isComplete: true,
-            adkIndex: index
-          }
-        : null;
+      return {
+        isComplete: researchProgress.value.every(
+          (item: any) => !item.required || (item.viewed && item.completed)
+        )
+          ? true
+          : null,
+        adkIndex
+      };
     };
     return {
       header: HEADER,
@@ -178,7 +178,7 @@ export default defineComponent({
       researchProgress,
       researchData,
       ...loading(
-        () => programDoc.value.update(() => checkCompleted()),
+        () => props.studentDoc.update(() => checkCompleted()),
         'Saved',
         'Something went wrong, try again later'
       )
