@@ -36,7 +36,7 @@ export default defineComponent({
       },
       changeStream: {}
     });
-    const studentDocStub: Ref<MongoDoc> = ref({
+    const studentDocStub: Ref<MongoDoc | null> = ref({
       data: {
         adks: []
       },
