@@ -88,7 +88,7 @@
     </v-data-table>
     <div class="module-default__scope mt-12">
       <v-btn
-        :disabled="!completed || userType === 'stakeholder'"
+        :disabled="userType === 'stakeholder'"
         x-large
         depressed
         outlined
@@ -158,9 +158,6 @@ export default defineComponent({
       instructions: ['', '', '']
     });
     const showInstructions = ref(true);
-    const completed = computed(() => {
-      (researchAdk.value as any[]).every(obj => obj.completed);
-    });
     return {
       header: HEADER,
       items,
@@ -176,8 +173,7 @@ export default defineComponent({
           })),
         'Saved',
         'Something went wrong, try again later'
-      ),
-      completed
+      )
     };
   }
 });
