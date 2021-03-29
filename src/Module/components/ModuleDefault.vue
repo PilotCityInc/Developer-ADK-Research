@@ -88,7 +88,7 @@
     </v-data-table>
     <div class="module-default__scope mt-12">
       <v-btn
-        :disabled="userType === 'stakeholder'"
+        :disabled="!completed || userType === 'stakeholder'"
         x-large
         depressed
         outlined
@@ -158,18 +158,9 @@ export default defineComponent({
       instructions: ['', '', '']
     });
     const showInstructions = ref(true);
-    const checkCompleted = () => {
-      // every research item must be viewed and completed
-      // unless it's not required
-      return {
-        isComplete: researchProgress.value.every(
-          (item: any) => !item.required || (item.viewed && item.completed)
-        )
-          ? true
-          : null,
-        adkIndex
-      };
-    };
+    const completed = computed(() => {
+      (researchAdk.value as any[]).every(obj => obj.completed);
+    });
     return {
       header: HEADER,
       items,
@@ -178,10 +169,15 @@ export default defineComponent({
       researchProgress,
       researchData,
       ...loading(
-        () => props.studentDoc.update(() => checkCompleted()),
+        () =>
+          props.studentDoc.update(() => ({
+            isComplete: true,
+            adkIndex
+          })),
         'Saved',
         'Something went wrong, try again later'
-      )
+      ),
+      completed
     };
   }
 });
