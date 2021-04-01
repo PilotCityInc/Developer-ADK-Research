@@ -83,12 +83,13 @@
           v-model="item.completed"
           :readonly="!item.viewed || userType === 'stakeholder'"
           type="checkbox"
+          @click="itemComplete()"
         />
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">
       <v-btn
-        :disabled="userType === 'stakeholder'"
+        :disabled="userType === 'stakeholder' || finishButtonDisabled === 1"
         x-large
         depressed
         outlined
@@ -158,10 +159,35 @@ export default defineComponent({
       instructions: ['', '', '']
     });
     const showInstructions = ref(true);
+    const finishButtonDisabled = ref(1);
+    function itemComplete() {
+      const finish = researchProgress.every(
+        (item: any) => !item.required || (item.viewed && item.completed)
+      );
+      if (finish) {
+        finishButtonDisabled.value = 0;
+      } else {
+        finishButtonDisabled.value = 1;
+      }
+    }
+    const checkCompleted = () => {
+      // every research item must be viewed and completed
+      // unless it's not required
+      return {
+        isComplete: researchProgress.value.every(
+          (item: any) => !item.required || (item.viewed && item.completed)
+        )
+          ? true
+          : null,
+        adkIndex
+      };
+    };
     return {
       header: HEADER,
       items,
       setupInstructions,
+      finishButtonDisabled,
+      itemComplete,
       showInstructions,
       researchProgress,
       researchData,
