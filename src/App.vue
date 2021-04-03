@@ -50,7 +50,7 @@ export default defineComponent({
       },
       changeStream: {}
     });
-    const userTypeStub = 'organizer';
+    const userTypeStub = 'participant';
     if (userTypeStub === 'organizer') studentDocStub.value = null;
     return {
       programDocStub,
