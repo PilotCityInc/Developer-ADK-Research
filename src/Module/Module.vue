@@ -100,12 +100,21 @@
           </div>
         </div>
         <div class="module__page">
+          <ModuleDefaultOrganizer
+            v-if="userType === 'organizer' && getComponent === 'module-preview'"
+            v-model="programDoc"
+            :user-type="userType"
+            :student-doc="{ data: { adks: [] }, update: () => {} }"
+          />
           <component
             :is="getComponent"
+            v-else
+            :key="key"
             v-model="programDoc"
             :user-type="userType"
             :student-doc="studentDoc || { data: { adks: [] }, update: () => {} }"
-            @inputStudentDoc="userType === 'participant' ? 'inputStundentDoc' : 'n'"
+            @inputStudentDoc="$emit('inputStundentDoc')"
+            @update="key++"
           />
         </div>
       </div>
@@ -151,6 +160,7 @@ import { computed, reactive, ref, toRefs, defineComponent, PropType } from '@vue
 import '../styles/module.scss';
 // import { Collection } from 'mongodb';
 import * as Module from './components';
+import ModuleDefaultOrganizer from './components/ModuleDefaultOrganizer.vue';
 import MongoDoc from './types';
 
 export default defineComponent({
@@ -159,7 +169,8 @@ export default defineComponent({
     'module-monitor': Module.Monitor,
     'module-setup': Module.Setup,
     'module-presets': Module.Presets,
-    'module-preview': Module.Default
+    'module-preview': Module.Default,
+    ModuleDefaultOrganizer
   },
   props: {
     value: {
@@ -259,12 +270,14 @@ export default defineComponent({
       });
       timelineData.input = '';
     }
+
     return {
       ...toRefs(color),
       ...toRefs(page),
       config,
       moduleName,
       menu,
+      key: ref(0),
       getComponent,
       getColor,
       ...toRefs(timelineData),
