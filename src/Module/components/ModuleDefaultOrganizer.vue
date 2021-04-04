@@ -43,7 +43,7 @@
     />
     <v-data-table
       :headers="header"
-      :items="researchAdk.researchProgress"
+      :items="researchProgress"
       :items-per-page="100"
       :hide-default-footer="true"
       class="module-default__data-table"
@@ -83,13 +83,13 @@
           v-model="item.completed"
           :readonly="!item.viewed || userType === 'stakeholder'"
           type="checkbox"
-          @click="$emit('update')"
+          @click="itemComplete()"
         />
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">
       <v-btn
-        :disabled="userType === 'stakeholder' || !isComplete"
+        :disabled="userType === 'stakeholder' || finishButtonDisabled === 1"
         x-large
         depressed
         outlined
@@ -135,14 +135,15 @@ export default defineComponent({
   },
   setup(props, ctx) {
     // props
-    console.log('this');
+    console.log('other test');
+    const researchData = computed(() => props.value.data.adks.find(obj => obj.name === 'research'));
+
     const { adkData: researchAdk, adkIndex } = getModAdk(
       props,
       ctx.emit,
       'research',
       {
-        researchProgress: (props.value.data.adks.find(obj => obj.name === 'research')
-          ?.researchLinks as any[]).map((obj: any) => ({
+        researchProgress: (researchData.value!.researchLinks as any[]).map((obj: any) => ({
           ...obj,
           viewed: false,
           completed: false
@@ -151,6 +152,7 @@ export default defineComponent({
       'studentDoc',
       'inputStudentDoc'
     );
+    const { researchProgress } = researchAdk.value;
     // layout
     const setupInstructions = ref({
       description: '',
@@ -158,21 +160,37 @@ export default defineComponent({
     });
     const showInstructions = ref(true);
     const finishButtonDisabled = ref(1);
-    const isComplete = computed(() => {
-      console.log('running');
-      return researchAdk.value.researchProgress.every(
+    function itemComplete() {
+      const finish = researchProgress.every(
         (item: any) => !item.required || (item.viewed && item.completed)
       );
-    });
-
+      if (finish) {
+        finishButtonDisabled.value = 0;
+      } else {
+        finishButtonDisabled.value = 1;
+      }
+    }
+    const checkCompleted = () => {
+      // every research item must be viewed and completed
+      // unless it's not required
+      return {
+        isComplete: researchProgress.value.every(
+          (item: any) => !item.required || (item.viewed && item.completed)
+        )
+          ? true
+          : null,
+        adkIndex
+      };
+    };
     return {
       header: HEADER,
       items,
       setupInstructions,
       finishButtonDisabled,
+      itemComplete,
       showInstructions,
-      researchAdk,
-      isComplete,
+      researchProgress,
+      researchData,
       ...loading(
         () =>
           props.studentDoc.update(() => ({
