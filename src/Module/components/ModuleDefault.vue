@@ -81,7 +81,7 @@
       <template v-slot:item.finish="{ item }">
         <v-checkbox
           v-model="item.completed"
-          :readonly="!item.viewed || userType === 'stakeholder'"
+          :disabled="!item.viewed || userType === 'stakeholder'"
           type="checkbox"
           @click="$emit('update')"
         />
