@@ -79,6 +79,7 @@
           <v-btn
             class="mt-12"
             x-large
+            rounded
             outlined
             depressed
             :disabled="invalid"

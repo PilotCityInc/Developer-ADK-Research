@@ -92,10 +92,11 @@
         :disabled="userType === 'stakeholder' || !isComplete"
         x-large
         depressed
+        rounded
         outlined
         :loading="loading"
         @click="process()"
-        >Finish Activity</v-btn
+        >Complete</v-btn
       >
       <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
         message
