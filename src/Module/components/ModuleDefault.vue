@@ -108,7 +108,8 @@
         v-if="saveSuccess || saveError"
         class="mt-3"
         :type="saveSuccess ? 'success' : 'error'"
-        >{{ saveMessage }}</v-alert>
+        >{{ saveMessage }}
+      </v-alert>
     </div>
   </v-container>
 </template>
