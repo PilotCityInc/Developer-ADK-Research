@@ -88,6 +88,9 @@
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">
+      <v-btn class="mr-2" x-large outlined depressed :loading="saveLoading" @click="saveProcess">
+        Save
+      </v-btn>
       <v-btn
         :disabled="userType === 'stakeholder' || !isComplete"
         x-large
@@ -101,6 +104,12 @@
       <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
         message
       }}</v-alert>
+      <v-alert
+        v-if="saveSuccess || saveError"
+        class="mt-3"
+        :type="saveSuccess ? 'success' : 'error'"
+        >{{ saveMessage }}</v-alert
+      >
     </div>
   </v-container>
 </template>
@@ -157,6 +166,13 @@ export default defineComponent({
       description: '',
       instructions: ['', '', '']
     });
+    const {
+      loading: saveLoading,
+      process: saveProcess,
+      message: saveMessage,
+      error: saveError,
+      success: saveSuccess
+    } = loading(() => props.studentDoc.update(), 'Saved', 'Something went wrong, try again later');
     const showInstructions = ref(true);
     const finishButtonDisabled = ref(1);
     const isComplete = computed(() => {
@@ -174,6 +190,11 @@ export default defineComponent({
       showInstructions,
       researchAdk,
       isComplete,
+      saveMessage,
+      saveError,
+      saveSuccess,
+      saveProcess,
+      saveLoading,
       ...loading(
         () =>
           props.studentDoc.update(() => ({

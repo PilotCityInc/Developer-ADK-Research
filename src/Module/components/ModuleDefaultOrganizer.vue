@@ -170,18 +170,6 @@ export default defineComponent({
         finishButtonDisabled.value = 1;
       }
     }
-    const checkCompleted = () => {
-      // every research item must be viewed and completed
-      // unless it's not required
-      return {
-        isComplete: researchProgress.value.every(
-          (item: any) => !item.required || (item.viewed && item.completed)
-        )
-          ? true
-          : null,
-        adkIndex
-      };
-    };
     return {
       header: HEADER,
       items,
