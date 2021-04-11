@@ -88,27 +88,35 @@
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">
-      <v-btn class="mr-2" x-large outlined depressed :loading="saveLoading" @click="saveProcess">
+      <v-btn class="mr-2" rounded x-large outlined depressed :loading="saveLoading" @click="saveProcess">
         Save
       </v-btn>
       <v-btn
         :disabled="userType === 'stakeholder' || !isComplete"
         x-large
+        color="#ea6764"
+        class="white--text"
         depressed
         rounded
-        outlined
         :loading="loading"
         @click="process()"
         >Complete</v-btn
       >
-      <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
-        message
-      }}</v-alert>
+      <v-alert
+        v-if="success || error"
+        dense
+        class="mt-3 white--text presets__alert"
+        :color="success ? 'green' : 'red'"
+      >
+        {{ message }}
+      </v-alert>
       <v-alert
         v-if="saveSuccess || saveError"
-        class="mt-3"
-        :type="saveSuccess ? 'success' : 'error'"
-        >{{ saveMessage }}
+        dense
+        class="mt-3 white--text presets__alert"
+        :color="saveSuccess ? 'green' : 'red'"
+      >
+        {{ saveMessage }}
       </v-alert>
     </div>
   </v-container>
@@ -172,7 +180,7 @@ export default defineComponent({
       message: saveMessage,
       error: saveError,
       success: saveSuccess
-    } = loading(() => props.studentDoc.update(), 'Saved', 'Something went wrong, try again later');
+    } = loading(() => props.studentDoc.update(), 'Success', 'Try again later');
     const showInstructions = ref(true);
     const finishButtonDisabled = ref(1);
     const isComplete = computed(() => {
