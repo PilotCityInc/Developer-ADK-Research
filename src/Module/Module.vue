@@ -219,7 +219,7 @@ export default defineComponent({
       currentPage: 'Setup'
     });
     if (props.userType === 'organizer') {
-      page.currentPage = 'setup';
+      page.currentPage = 'Setup';
     } else {
       page.currentPage = 'preview';
     }
