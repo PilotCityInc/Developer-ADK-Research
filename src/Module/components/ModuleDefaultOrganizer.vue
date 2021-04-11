@@ -97,9 +97,13 @@
         @click="process()"
         >Finish Activity</v-btn
       >
-      <v-alert v-if="success || error" class="mt-3" :type="success ? 'success' : 'error'">{{
-        message
-      }}</v-alert>
+      <v-alert
+        v-if="success || error"
+        dense
+        class="mt-3 white--text presets__alert"
+        :color="success ? 'green' : 'red'"
+        >{{ message }}</v-alert
+      >
     </div>
   </v-container>
 </template>
@@ -185,8 +189,8 @@ export default defineComponent({
             isComplete: true,
             adkIndex
           })),
-        'Saved',
-        'Something went wrong, try again later'
+        'Success',
+        'Try again later'
       )
     };
   }

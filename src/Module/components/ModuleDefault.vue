@@ -108,8 +108,7 @@
         v-if="saveSuccess || saveError"
         class="mt-3"
         :type="saveSuccess ? 'success' : 'error'"
-        >{{ saveMessage }}</v-alert
-      >
+        >{{ saveMessage }}</v-alert>
     </div>
   </v-container>
 </template>
@@ -201,8 +200,8 @@ export default defineComponent({
             isComplete: true,
             adkIndex
           })),
-        'Saved',
-        'Something went wrong, try again later'
+        'Success',
+        'Try again later'
       )
     };
   }
