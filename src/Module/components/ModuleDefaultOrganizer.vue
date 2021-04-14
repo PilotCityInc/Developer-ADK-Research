@@ -88,14 +88,19 @@
       </template>
     </v-data-table>
     <div class="module-default__scope mt-12">
+      <!-- <v-btn class="mr-2" rounded x-large outlined depressed :loading="saveLoading" @click="saveProcess">
+        Save
+      </v-btn> -->
       <v-btn
         :disabled="userType === 'stakeholder' || finishButtonDisabled === 1"
         x-large
+        color="#ea6764"
+        class="white--text"
         depressed
-        outlined
+        rounded
         :loading="loading"
         @click="process()"
-        >Finish Activity</v-btn
+        >Complete</v-btn
       >
       <v-alert
         v-if="success || error"
