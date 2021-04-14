@@ -113,7 +113,7 @@
             v-model="programDoc"
             :user-type="userType"
             :student-doc="studentDoc || { data: { adks: [] }, update: () => {} }"
-            @inputStudentDoc="$emit('inputStudentDoc')"
+            @inputStudentDoc="$emit('inputStundentDoc')"
             @update="key++"
           />
         </div>
