@@ -57,7 +57,14 @@
         <v-icon v-else color="grey"> mdi-close-circle </v-icon>
       </template>
       <template v-slot:item.cta="{ item }">
-        <v-btn v-if="item.viewed" x-small outlined depressed>
+        <v-btn
+          v-if="item.viewed"
+          x-small
+          outlined
+          depressed
+          :href="item.link"
+          target="_blank"
+        >
           <v-icon v-if="userType !== 'stakeholder'" left x-small color="green"
             >mdi-check-bold </v-icon
           >Goto Link</v-btn
