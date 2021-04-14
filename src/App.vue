@@ -1,6 +1,11 @@
 <template>
   <v-app>
-    <Module v-model="programDocStub" :user-type="userTypeStub" :student-doc="studentDocStub" />
+    <Module
+      v-model="programDocStub"
+      :user-type="userTypeStub"
+      :student-doc="studentDocStub"
+      @inputStudentDoc="studentDoc = $event"
+    />
   </v-app>
 </template>
 
