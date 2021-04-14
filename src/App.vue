@@ -4,7 +4,6 @@
       v-model="programDocStub"
       :user-type="userTypeStub"
       :student-doc="studentDocStub"
-      @inputStudentDoc="studentDoc = $event"
     />
   </v-app>
 </template>
